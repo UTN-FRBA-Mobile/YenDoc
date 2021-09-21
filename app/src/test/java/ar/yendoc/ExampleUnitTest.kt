@@ -1,4 +1,4 @@
-package com.example.yendoc
+package ar.yendoc
 
 import org.junit.Test
 

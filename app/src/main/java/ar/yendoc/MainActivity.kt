@@ -1,4 +1,4 @@
-package com.example.yendoc
+package ar.yendoc
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
