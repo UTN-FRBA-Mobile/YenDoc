@@ -8,6 +8,14 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="visitas">Visitas</string>
-    <string name="acerca_de">Acerca de...</string>
+    <string name="acerca_de">Acerca de</string>
     <string name="cerrar_sesion">Cerrar sesión</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="desarrollada_por">Desarrollada Por:</string>
+    <string name="vanina_aranda">Vanina Aranda</string>
+    <string name="julian_simplituca">Julián Simplituca</string>
+    <string name="julian_roman">Julián Román</string>
+    <string name="carolina_andrea_d_alfonso">Carolina Andrea D\'Alfonso</string>
+    <string name="nombre_generico">Nombre Médico</string>
 </resources>

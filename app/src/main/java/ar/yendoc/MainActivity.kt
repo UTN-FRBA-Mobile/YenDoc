@@ -3,6 +3,7 @@ package ar.yendoc
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -14,25 +15,21 @@ import com.google.android.material.navigation.NavigationView
 
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.core.view.GravityCompat
-import android.R
-import android.annotation.SuppressLint
-import android.view.View
-import androidx.core.view.get
+import ar.yendoc.ui.AboutFragment
+import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionListener {
 
     private var mDrawer: DrawerLayout? = null
     private val toolbar: Toolbar? = null
-    private val nvDrawer: NavigationView? = null
     private var drawerTl: ActionBarDrawerToggle? = null
-
-    // Make sure to be using androidx.appcompat.app.ActionBarDrawerToggle version.
-    private val drawerToggle: ActionBarDrawerToggle? = null
 
     lateinit var binding: ActivityMainBinding
     private lateinit var loginFragment: Fragment
     private lateinit var dashboardFragment: Fragment
+    private var aboutFragment: Fragment = AboutFragment()
+    private lateinit var mTitle: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,51 +46,80 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
 
         // Find our drawer view
         mDrawer = binding.drawerLayout
-        drawerTl = setupDrawerToggle();
+        drawerTl = setupDrawerToggle()
 
         // Setup toggle to display hamburger icon with nice animation
-        drawerTl?.setDrawerIndicatorEnabled(true);
-        drawerTl?.syncState();
+        drawerTl?.isDrawerIndicatorEnabled = true
+        drawerTl?.syncState()
 
         // Tie DrawerLayout events to the ActionBarToggle
-        drawerTl?.let { mDrawer!!.addDrawerListener(it) };
+        drawerTl?.let { mDrawer!!.addDrawerListener(it) }
 
-        val mTitle = binding.toolbarView.toolbarTitle
-        mTitle.text = getString(ar.yendoc.R.string.visitas)
+        mTitle = binding.toolbarView.toolbarTitle
+        mTitle.text = getString(R.string.visitas)
 
-        setupDrawerContent(nvDrawer);
+        var nvDrawer: NavigationView = findViewById(R.id.nvView)
+        setupDrawerContent(nvDrawer)
 
         if (savedInstanceState == null) {
             loginFragment = LoginFragment()
 
             supportFragmentManager.beginTransaction()
-                .replace(binding.container.id, loginFragment)
+                .replace(R.id.container, loginFragment)
                 .commitNow()
         }
     }
-   /* override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_login)
-    }*/
-   private fun setupDrawerToggle(): ActionBarDrawerToggle? {
+
+   private fun setupDrawerToggle(): ActionBarDrawerToggle {
        // NOTE: Make sure you pass in a valid toolbar reference.  ActionBarDrawToggle() does not require it
        // and will not render the hamburger icon without it.
        return ActionBarDrawerToggle(
            this,
            mDrawer,
            toolbar,
-           R.string.ok,
-           R.string.cancel
+           R.string.drawer_open,
+           R.string.drawer_close
        )
    }
 
-    private fun setupDrawerContent(navigationView: NavigationView?) {
-        navigationView?.setNavigationItemSelectedListener { menuItem ->
-            //selectDrawerItem(menuItem)
+    private fun setupDrawerContent(navigationView: NavigationView) {
+        navigationView.setNavigationItemSelectedListener { menuItem ->
+            selectDrawerItem(menuItem)
             true
         }
     }
 
+    private fun selectDrawerItem(menuItem: MenuItem) {
+        // Create a new fragment and specify the fragment to show based on nav item clicked
+        var fragment: Fragment? = null
+        val fragmentClass: Class<*> = when (menuItem.itemId) {
+            R.id.home -> dashboardFragment::class.java
+            R.id.about -> aboutFragment::class.java
+            R.id.logout -> dashboardFragment::class.java
+            else -> loginFragment::class.java
+        }
+        try {
+            fragment = fragmentClass.newInstance() as Fragment
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        if(menuItem.itemId == R.id.logout){
+            finish()
+            startActivity(intent)
+        }
+
+        // Insert the fragment by replacing any existing fragment
+        val fragmentManager = supportFragmentManager
+        fragmentManager.beginTransaction().replace(R.id.container, fragment!!).commit()
+
+        // Highlight the selected item has been done by NavigationView
+        menuItem.isChecked = true
+        // Set action bar title
+        mTitle.text = menuItem.title
+        // Close the navigation drawer
+        mDrawer!!.closeDrawers()
+    }
 
     override fun onLogin(username: String, password: String) {
         dashboardFragment = DashboardFragment()
@@ -105,7 +131,7 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // The action bar home/up action should open or close the drawer.
-        when (item.getItemId()) {
+        when (item.itemId) {
             android.R.id.home -> {
                 mDrawer!!.openDrawer(GravityCompat.START)
                 return true
