@@ -3,21 +3,25 @@ package ar.yendoc.core
 class VisitaAPI {
     fun getVisitas(): MutableList<Visita> {
         val dataset = mutableListOf<Visita>()
-        for (i in 0..30) {
-            if (i % 5 == 0) {
-                dataset.add(Visita(i, "Paciente $i", "Dirección paciente: $i", 0))
-                continue
-            }
-
-            if (i % 2 == 0)
-            //even
-                dataset.add(Visita(i, "Paciente $i", "Dirección paciente: $i", 1))
-            else
-            //odd
-                dataset.add(Visita(i, "Paciente $i", "Dirección paciente: $i", 2))
+        var j = 0
+        for (i in 0..3) {
+            dataset.add(Visita(j, "Paciente $j", "Dirección paciente: $j", 1))
+            j += 1
         }
-        val idTemporal = dataset.size + 1
-        dataset.add(Visita(idTemporal, "Paciente $idTemporal", "Dirección paciente: $idTemporal", 3))
+        for (i in 0..2) {
+            dataset.add(Visita(j, "Paciente $j", "Dirección paciente: $j", 2))
+            j += 1
+        }
+        for (i in 0..2) {
+            dataset.add(Visita(j, "Paciente $j", "Dirección paciente: $j", 1))
+            j += 1
+        }
+        dataset.add(Visita(j, "Paciente $j", "Dirección paciente: $j", 3))
+        j += 1
+        for (i in 0..10) {
+            dataset.add(Visita(j, "Paciente $j", "Dirección paciente: $j", 0))
+            j += 1
+        }
         return dataset
     }
 }
