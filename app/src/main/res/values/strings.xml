@@ -18,4 +18,6 @@
     <string name="julian_roman">Julián Román</string>
     <string name="carolina_andrea_d_alfonso">Carolina Andrea D\'Alfonso</string>
     <string name="nombre_generico">Nombre Médico</string>
+    <string name="nombre_paciente">Nombre Paciente</string>
+    <string name="direccion_generica">Dirección, Barrio, CABA</string>
 </resources>

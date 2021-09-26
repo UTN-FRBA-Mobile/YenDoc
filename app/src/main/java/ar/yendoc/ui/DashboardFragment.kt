@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ar.yendoc.MainActivity
+import ar.yendoc.core.VisitaAPI
+import ar.yendoc.core.VisitasAdapter
 import ar.yendoc.databinding.FragmentDashboardBinding
 
 class DashboardFragment : Fragment() {
@@ -28,14 +30,15 @@ class DashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         (requireActivity() as MainActivity).supportActionBar!!.show()
-       /* val myDataset = MovieApi().getMovies()
+
+        val myVisitas = VisitaAPI().getVisitas()
 
         val viewManager = LinearLayoutManager(this.context)
-        val viewAdapter = MoviesAdapter(myDataset)
+        val viewAdapter = VisitasAdapter(myVisitas)
 
-        recyclerView = binding.myRecyclerView.apply {
+        recyclerView = binding.recyclerVisitas.apply {
             layoutManager = viewManager
             adapter = viewAdapter
-        }*/
+        }
     }
 }

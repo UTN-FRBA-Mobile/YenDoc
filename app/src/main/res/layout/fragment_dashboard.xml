@@ -5,13 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/prueba"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_visitas"
+        android:scrollbars="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="1"
-        android:gravity="bottom"
-        android:hint="@string/usuario" />
+        android:layout_height="match_parent"/>
 
 </LinearLayout>
