@@ -12,6 +12,7 @@ import ar.yendoc.MainActivity
 import ar.yendoc.core.VisitaAPI
 import ar.yendoc.core.VisitasAdapter
 import ar.yendoc.databinding.FragmentDashboardBinding
+import com.google.android.material.navigation.NavigationView
 
 class DashboardFragment : Fragment() {
     private var _binding: FragmentDashboardBinding? = null
@@ -41,4 +42,5 @@ class DashboardFragment : Fragment() {
             adapter = viewAdapter
         }
     }
+
 }

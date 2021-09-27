@@ -16,7 +16,7 @@ class VisitasAdapter (private val myDataset: MutableList<Visita>) :
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): VisitasAdapter.MyViewHolder {
         val view : View = LayoutInflater.from(parent.context)
-                .inflate(R.layout.view_list_visitas, parent, false)
+                .inflate(R.layout.view_list_visits, parent, false)
 
         return MyViewHolder(view)
     }

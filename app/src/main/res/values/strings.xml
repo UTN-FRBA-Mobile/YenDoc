@@ -20,4 +20,12 @@
     <string name="nombre_generico">Nombre Médico</string>
     <string name="nombre_paciente">Nombre Paciente</string>
     <string name="direccion_generica">Dirección, Barrio, CABA</string>
+    <string name="paciente">Paciente:</string>
+    <string name="direccion">Dirección:</string>
+    <string name="edad">Edad:</string>
+    <string name="edad_generica">29 años</string>
+    <string name="sintomas">Síntomas:</string>
+    <string name="sintomas_genericos">Síntomas genéricos para el paciente descriptivos por él.</string>
+    <string name="diagnostico_generico">Diagnóstico genérico con síntomas encontrados y conclusión del profesional.</string>
+    <string name="diagnostico">Diagnóstico:</string>
 </resources>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"   >
+
+        <TextView
+            android:id="@+id/lblPaciente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0"
+            android:textColor="@color/black"
+            android:paddingRight="20dp"
+            android:paddingBottom="12dp"
+            android:hint="@string/paciente" />
+
+        <TextView
+            android:id="@+id/name_paciente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0"
+            android:textColor="@color/black"
+            android:paddingBottom="12dp"
+            android:layout_toEndOf="@+id/lblDireccion"
+            android:text="@string/nombre_paciente"/>
+
+        <TextView
+            android:id="@+id/lblDireccion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0"
+            android:textColor="@color/black"
+            android:paddingRight="20dp"
+            android:paddingBottom="12dp"
+            android:layout_below="@+id/lblPaciente"
+            android:hint="@string/direccion" />
+
+        <TextView
+            android:id="@+id/address_paciente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0"
+            android:textColor="@color/black"
+            android:paddingBottom="12dp"
+            android:layout_toEndOf="@+id/lblDireccion"
+            android:layout_below="@+id/name_paciente"
+            android:text="@string/direccion_generica"/>
+
+        <TextView
+            android:id="@+id/lblEdad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0"
+            android:textColor="@color/black"
+            android:paddingRight="20dp"
+            android:paddingBottom="12dp"
+            android:layout_below="@+id/lblDireccion"
+            android:hint="@string/edad" />
+
+        <TextView
+            android:id="@+id/age_paciente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0"
+            android:textColor="@color/black"
+            android:paddingBottom="12dp"
+            android:layout_toEndOf="@+id/lblDireccion"
+            android:layout_below="@+id/address_paciente"
+            android:text="@string/edad_generica"/>
+
+        <TextView
+            android:id="@+id/lblSintomas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0"
+            android:textColor="@color/black"
+            android:paddingRight="20dp"
+            android:paddingBottom="12dp"
+            android:layout_below="@+id/lblEdad"
+            android:hint="@string/sintomas" />
+
+        <TextView
+            android:id="@+id/symptom_paciente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0"
+            android:textColor="@color/black"
+            android:paddingBottom="12dp"
+            android:layout_toEndOf="@+id/lblDireccion"
+            android:layout_below="@+id/age_paciente"
+            android:text="@string/sintomas_genericos"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="4">
+
+        <TextView
+            android:id="@+id/lblDiagnostico"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:paddingRight="20dp"
+            android:paddingBottom="0dp"
+            android:hint="@string/diagnostico" />
+
+        <EditText
+            android:id="@+id/diagnostic"
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            android:layout_weight="3"
+            android:textSize="15dp"
+            android:maxHeight="200dp"
+            android:gravity="top"
+            android:text="@string/diagnostico_generico" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3">
+        <ImageView
+            android:src="@drawable/recipe"
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:layout_weight="1"
+            />
+        <ImageView
+            android:src="@drawable/camera"
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:layout_weight="1"
+            />
+        <ImageView
+            android:src="@drawable/done"
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
+</LinearLayout>
