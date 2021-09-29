@@ -16,10 +16,11 @@ import com.google.android.material.navigation.NavigationView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.core.view.GravityCompat
 import ar.yendoc.ui.AboutFragment
+import ar.yendoc.ui.TabsFragment
 import java.lang.Exception
 
 
-class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionListener {
+class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionListener, DashboardFragment.OnFragmentInteractionListener {
 
     private var mDrawer: DrawerLayout? = null
     private val toolbar: Toolbar? = null
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
     lateinit var binding: ActivityMainBinding
     private lateinit var loginFragment: Fragment
     private lateinit var dashboardFragment: Fragment
+    private lateinit var tabsFragment: Fragment
     private var aboutFragment: Fragment = AboutFragment()
     private lateinit var mTitle: TextView
 
@@ -92,6 +94,7 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
     private fun selectDrawerItem(menuItem: MenuItem) {
         // Create a new fragment and specify the fragment to show based on nav item clicked
         var fragment: Fragment? = null
+        var nameFragment: String? = null
         val fragmentClass: Class<*> = when (menuItem.itemId) {
             R.id.home -> dashboardFragment::class.java
             R.id.about -> aboutFragment::class.java
@@ -104,6 +107,18 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
             e.printStackTrace()
         }
 
+        when (menuItem.itemId) {
+            R.id.home -> {
+                nameFragment = "DashboardFragment"
+            }
+            R.id.about -> {
+                nameFragment = "AboutFragment"
+            }
+            R.id.logout -> {
+                nameFragment = null
+            }
+        }
+
         if(menuItem.itemId == R.id.logout){
             finish()
             startActivity(intent)
@@ -111,7 +126,9 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
 
         // Insert the fragment by replacing any existing fragment
         val fragmentManager = supportFragmentManager
-        fragmentManager.beginTransaction().replace(R.id.container, fragment!!).commit()
+        fragmentManager.beginTransaction().replace(R.id.container, fragment!!)
+            .addToBackStack(nameFragment)
+            .commit()
 
         // Highlight the selected item has been done by NavigationView
         menuItem.isChecked = true
@@ -123,10 +140,15 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
 
     override fun onLogin(username: String, password: String) {
         dashboardFragment = DashboardFragment()
-
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-
         supportFragmentManager.beginTransaction().remove(loginFragment).add(binding.container.id, dashboardFragment).commitNow()
+    }
+
+    override fun onSelectVisita(idVisita: Int) {
+        tabsFragment = TabsFragment()//Pasar el id de visita
+        supportFragmentManager.popBackStack("DashboardFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        supportFragmentManager.beginTransaction().remove(dashboardFragment).add(R.id.container, tabsFragment)
+            .commitNow()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

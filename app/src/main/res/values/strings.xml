@@ -28,4 +28,7 @@
     <string name="sintomas_genericos">Síntomas genéricos para el paciente descriptivos por él.</string>
     <string name="diagnostico_generico">Diagnóstico genérico con síntomas encontrados y conclusión del profesional.</string>
     <string name="diagnostico">Diagnóstico:</string>
+    <string name="fotos">Fotos</string>
+    <string name="mapa">Mapa</string>
+    <string name="detalle">Detalle</string>
 </resources>

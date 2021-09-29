@@ -107,17 +107,15 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:weightSum="4">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/lblDiagnostico"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
             android:textColor="@color/black"
             android:paddingRight="20dp"
             android:paddingBottom="0dp"
@@ -126,35 +124,36 @@
         <EditText
             android:id="@+id/diagnostic"
             android:layout_width="match_parent"
-            android:layout_height="450dp"
-            android:layout_weight="3"
+            android:layout_height="fill_parent"
             android:textSize="15dp"
-            android:maxHeight="200dp"
+            android:height="400dp"
             android:gravity="top"
             android:text="@string/diagnostico_generico" />
 
     </LinearLayout>
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
+        android:gravity="bottom"
+        android:layout_marginBottom="50dp"
         android:weightSum="3">
         <ImageView
             android:src="@drawable/recipe"
-            android:layout_height="50dp"
-            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_width="30dp"
             android:layout_weight="1"
             />
         <ImageView
             android:src="@drawable/camera"
-            android:layout_height="50dp"
-            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_width="30dp"
             android:layout_weight="1"
             />
         <ImageView
             android:src="@drawable/done"
-            android:layout_height="50dp"
-            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_width="30dp"
             android:layout_weight="1"/>
     </LinearLayout>
 </LinearLayout>

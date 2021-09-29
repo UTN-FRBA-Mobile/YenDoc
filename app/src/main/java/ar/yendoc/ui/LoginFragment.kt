@@ -42,11 +42,7 @@ class LoginFragment: Fragment() {
                     toast.show()
                 }
                 else -> {
-
                     listener!!.onLogin(usuario, contrasenia)
-                    /*val bundle = bundleOf("Usuario" to usuario)
-                    val action = R.id.action_mainFragment_to_quizFragment
-                    findNavController().navigate(action,bundle)}*/
                 }
 
             }

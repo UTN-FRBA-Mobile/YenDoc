@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ar.yendoc.R
 
-class VisitasAdapter (private val myDataset: MutableList<Visita>) :
+class VisitasAdapter (private val myDataset: MutableList<Visita>, private val clickListener: (Visita, Int) -> Unit) :
     RecyclerView.Adapter<VisitasAdapter.MyViewHolder>() {
 
     class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view)
@@ -22,16 +22,20 @@ class VisitasAdapter (private val myDataset: MutableList<Visita>) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+
+        var item : Visita = myDataset[position]
+
+        // Calling the clickListener sent by the constructor
+        holder?.view?.setOnClickListener { clickListener(item, position) }
+
         holder.view.findViewById<TextView>(R.id.paciente).text = myDataset[position].nombrePaciente
         holder.view.findViewById<TextView>(R.id.paciente_direccion).text = myDataset[position].direccionPaciente
-        if(myDataset[position].estado == 0)
-            holder.view.findViewById<ImageView>(R.id.estado_visita).setImageResource(R.drawable.pendiente)
-        else if(myDataset[position].estado == 1)
-            holder.view.findViewById<ImageView>(R.id.estado_visita).setImageResource(R.drawable.cumplida)
-        else if(myDataset[position].estado == 2)
-            holder.view.findViewById<ImageView>(R.id.estado_visita).setImageResource(R.drawable.no_cumplida)
-        else if(myDataset[position].estado == 3)
-            holder.view.findViewById<ImageView>(R.id.estado_visita).setImageResource(R.drawable.en_curso)
+        when (myDataset[position].estado) {
+            0 -> holder.view.findViewById<ImageView>(R.id.estado_visita).setImageResource(R.drawable.pendiente)
+            1 -> holder.view.findViewById<ImageView>(R.id.estado_visita).setImageResource(R.drawable.cumplida)
+            2 -> holder.view.findViewById<ImageView>(R.id.estado_visita).setImageResource(R.drawable.no_cumplida)
+            3 -> holder.view.findViewById<ImageView>(R.id.estado_visita).setImageResource(R.drawable.en_curso)
+        }
     }
 
     override fun getItemCount() = myDataset.size

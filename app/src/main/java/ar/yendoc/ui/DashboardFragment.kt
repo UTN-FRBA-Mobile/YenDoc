@@ -1,24 +1,28 @@
 package ar.yendoc.ui
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ar.yendoc.MainActivity
+import ar.yendoc.core.Visita
 import ar.yendoc.core.VisitaAPI
 import ar.yendoc.core.VisitasAdapter
 import ar.yendoc.databinding.FragmentDashboardBinding
-import com.google.android.material.navigation.NavigationView
 
 class DashboardFragment : Fragment() {
     private var _binding: FragmentDashboardBinding? = null
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+    private var listener: DashboardFragment.OnFragmentInteractionListener? = null
 
     private lateinit var recyclerView: RecyclerView
 
@@ -35,7 +39,9 @@ class DashboardFragment : Fragment() {
         val myVisitas = VisitaAPI().getVisitas()
 
         val viewManager = LinearLayoutManager(this.context)
-        val viewAdapter = VisitasAdapter(myVisitas)
+        val viewAdapter = VisitasAdapter(myVisitas) { itemDto: Visita, position: Int ->
+            listener!!.onSelectVisita(itemDto.idVisita)
+        }
 
         recyclerView = binding.recyclerVisitas.apply {
             layoutManager = viewManager
@@ -43,4 +49,22 @@ class DashboardFragment : Fragment() {
         }
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is DashboardFragment.OnFragmentInteractionListener) {
+            listener = context
+        } else {
+            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
+    }
+
+
+    interface OnFragmentInteractionListener {
+        fun onSelectVisita(idVisita: Int)
+    }
 }
