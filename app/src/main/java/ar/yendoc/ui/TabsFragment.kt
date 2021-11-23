@@ -1,19 +1,13 @@
 package ar.yendoc.ui
 
-import android.R
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import ar.yendoc.databinding.FragmentTabsBinding
 import androidx.viewpager.widget.ViewPager
 import ar.yendoc.core.TabsAdapter
-import ar.yendoc.core.Visita
-import ar.yendoc.core.VisitasAdapter
 import com.google.android.material.tabs.TabLayout
 import androidx.fragment.app.FragmentActivity
 

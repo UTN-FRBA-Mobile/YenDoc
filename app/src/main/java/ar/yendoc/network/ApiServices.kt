@@ -14,8 +14,14 @@ interface ApiServices {
     @GET("profesionales")
     fun getAllProfesionales() : Call<List<Profesional>>
 
-    @GET("profesionales")
+    @GET("profesionales/{profesional_id}")
     fun getProfesionalById(@Query("profesional_id") profesional_id : Int) : Call<Profesional>
+    /*
+    @GET("profesionales/{id}/proximasVisitas")
+    fun getProximasVisitasByProfesionalId(@Query("profesional_id") profesional_id : Int) : Call<List<Visita>>
+*/
+    @GET("profesionales/{id}/proximasVisitas")
+    fun getVisitasByProfesionalId(@Path("id") profesional_id : Int) : Call<List<VisitaAdapt>>
 
     companion object {
 

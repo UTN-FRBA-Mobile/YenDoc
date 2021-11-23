@@ -7,14 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ar.yendoc.MainActivity
-import ar.yendoc.core.Visita
-import ar.yendoc.core.VisitaAPI
 import ar.yendoc.core.VisitasAdapter
 import ar.yendoc.databinding.FragmentDashboardBinding
+import ar.yendoc.network.ApiServices
+import ar.yendoc.network.VisitaAdapt
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class DashboardFragment : Fragment() {
     private var _binding: FragmentDashboardBinding? = null
@@ -36,17 +38,40 @@ class DashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as MainActivity).supportActionBar!!.show()
 
-        val myVisitas = VisitaAPI().getVisitas()
+        val profesional = 1
+        val myVisitas = mutableListOf<VisitaAdapt>()
 
-        val viewManager = LinearLayoutManager(this.context)
-        val viewAdapter = VisitasAdapter(myVisitas) { itemDto: Visita, position: Int ->
-            listener!!.onSelectVisita(itemDto.idVisita)
-        }
+        val apiInterface = ApiServices.create().getVisitasByProfesionalId(profesional)
+        apiInterface.enqueue( object: Callback<List<VisitaAdapt>> {
+            override fun onResponse(
+                call: Call<List<VisitaAdapt>>,
+                response: Response<List<VisitaAdapt>>
+            ) {
+                if(response?.body() != null){
+                    Log.d("BODY", response.body().toString())
+                    for (i in 0 until (response.body()!!.size)){
+                        myVisitas.add(i, response.body()!![i])
+                    }
 
-        recyclerView = binding.recyclerVisitas.apply {
-            layoutManager = viewManager
-            adapter = viewAdapter
-        }
+                    val viewManager = LinearLayoutManager(context)
+                    val viewAdapter = VisitasAdapter(myVisitas) {
+                            itemDto: VisitaAdapt, position: Int ->
+                        listener!!.onSelectVisita(itemDto.visita_id)
+                    }
+
+                    recyclerView = binding.recyclerVisitas.apply {
+                        layoutManager = viewManager
+                        adapter = viewAdapter
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<List<VisitaAdapt>>, t: Throwable) {
+                Log.d("ONFAILURE", t.message.toString())
+            }
+        })
+
+
     }
 
     override fun onAttach(context: Context) {
@@ -65,6 +90,6 @@ class DashboardFragment : Fragment() {
 
 
     interface OnFragmentInteractionListener {
-        fun onSelectVisita(idVisita: Int)
+        fun onSelectVisita(visita_id: Int)
     }
 }
