@@ -7,8 +7,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ar.yendoc.R
+import ar.yendoc.network.VisitaAdapt
 
-class VisitasAdapter (private val myDataset: MutableList<Visita>, private val clickListener: (Visita, Int) -> Unit) :
+class VisitasAdapter (private val myDataset: MutableList<VisitaAdapt>, private val clickListener: (VisitaAdapt, Int) -> Unit) :
     RecyclerView.Adapter<VisitasAdapter.MyViewHolder>() {
 
     class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view)
@@ -23,12 +24,12 @@ class VisitasAdapter (private val myDataset: MutableList<Visita>, private val cl
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        var item : Visita = myDataset[position]
+        var item : VisitaAdapt = myDataset[position]
 
         // Calling the clickListener sent by the constructor
         holder?.view?.setOnClickListener { clickListener(item, position) }
 
-        holder.view.findViewById<TextView>(R.id.paciente).text = myDataset[position].nombrePaciente
+        holder.view.findViewById<TextView>(R.id.paciente).text = myDataset[position].paciente
         holder.view.findViewById<TextView>(R.id.paciente_direccion).text = myDataset[position].direccionPaciente
         when (myDataset[position].estado) {
             0 -> holder.view.findViewById<ImageView>(R.id.estado_visita).setImageResource(R.drawable.pendiente)

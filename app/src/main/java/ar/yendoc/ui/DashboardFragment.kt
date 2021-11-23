@@ -15,6 +15,12 @@ import ar.yendoc.core.Visita
 import ar.yendoc.core.VisitaAPI
 import ar.yendoc.core.VisitasAdapter
 import ar.yendoc.databinding.FragmentDashboardBinding
+import ar.yendoc.network.ApiServices
+import ar.yendoc.network.Profesional
+import ar.yendoc.network.VisitaAdapt
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class DashboardFragment : Fragment() {
     private var _binding: FragmentDashboardBinding? = null
@@ -36,11 +42,36 @@ class DashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as MainActivity).supportActionBar!!.show()
 
-        val myVisitas = VisitaAPI().getVisitas()
+        val profesional = 1
+        val myVisitas = mutableListOf<VisitaAdapt>()
+
+        val apiInterface = ApiServices.create().getVisitasByProfesionalId(profesional)
+        apiInterface.enqueue( object: Callback<List<VisitaAdapt>> {
+            override fun onResponse(
+                call: Call<List<VisitaAdapt>>,
+                response: Response<List<VisitaAdapt>>
+            ) {
+                Log.d("ONRESPONSE", "LLEGUE")
+                if(response?.body() != null){
+                    Log.d("BODY", response.body().toString())
+                    for (i in 0 until (response.body()!!.size)){
+                        myVisitas.add(i, response.body()!![i])
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<List<VisitaAdapt>>, t: Throwable) {
+                Log.d("ONFAILURE", t.message.toString())
+                //myVisitas = VisitaAPI().getVisitas()
+            }
+        })
+
+        //val myVisitas = VisitaAPI().getVisitas()
 
         val viewManager = LinearLayoutManager(this.context)
-        val viewAdapter = VisitasAdapter(myVisitas) { itemDto: Visita, position: Int ->
-            listener!!.onSelectVisita(itemDto.idVisita)
+        val viewAdapter = VisitasAdapter(myVisitas) {
+                itemDto: VisitaAdapt, position: Int ->
+            listener!!.onSelectVisita(itemDto.visita_id)
         }
 
         recyclerView = binding.recyclerVisitas.apply {
@@ -65,6 +96,6 @@ class DashboardFragment : Fragment() {
 
 
     interface OnFragmentInteractionListener {
-        fun onSelectVisita(idVisita: Int)
+        fun onSelectVisita(visita_id: Int)
     }
 }

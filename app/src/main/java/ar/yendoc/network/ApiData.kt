@@ -43,3 +43,12 @@ data class Visita (
     @Json(name = "diagnostico_id") val diagnostico_id: Int? = null,
     @Json(name = "realizada") val realizada: Int? = 0
 )
+
+@JsonClass(generateAdapter = true)
+data class VisitaAdapt (
+    @Json(name = "visita_id") val visita_id: Int,
+    @Json(name = "fecha") val fecha: Long? = null,
+    @Json(name = "paciente") val paciente: String,
+    @Json(name = "direccionPaciente") val direccionPaciente : String,
+    @Json(name = "estado_visita") val estado: Int? = 0
+)
