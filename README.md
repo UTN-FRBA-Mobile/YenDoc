@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/UTN-FRBA-Mobile/YenDoc/tree/main/app/src/main/res/drawable-v24/YenDoc.png" width="600px">
+  <img src="https://raw.githubusercontent.com/UTN-FRBA-Mobile/YenDoc/main/app/src/main/res/drawable-v24/YenDoc.png" width="600px">
 </p>
 
 *** 
