@@ -7,16 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ar.yendoc.MainActivity
-import ar.yendoc.core.Visita
-import ar.yendoc.core.VisitaAPI
 import ar.yendoc.core.VisitasAdapter
 import ar.yendoc.databinding.FragmentDashboardBinding
 import ar.yendoc.network.ApiServices
-import ar.yendoc.network.Profesional
 import ar.yendoc.network.VisitaAdapt
 import retrofit2.Call
 import retrofit2.Callback
