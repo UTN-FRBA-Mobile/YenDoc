@@ -128,4 +128,4 @@ dist
 .api/.idea/
 
 #Database
-.api/db.sqlite
+/api/db.sqlite

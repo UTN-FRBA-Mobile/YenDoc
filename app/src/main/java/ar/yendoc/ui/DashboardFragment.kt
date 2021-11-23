@@ -56,27 +56,26 @@ class DashboardFragment : Fragment() {
                     for (i in 0 until (response.body()!!.size)){
                         myVisitas.add(i, response.body()!![i])
                     }
+
+                    val viewManager = LinearLayoutManager(context)
+                    val viewAdapter = VisitasAdapter(myVisitas) {
+                            itemDto: VisitaAdapt, position: Int ->
+                        listener!!.onSelectVisita(itemDto.visita_id)
+                    }
+
+                    recyclerView = binding.recyclerVisitas.apply {
+                        layoutManager = viewManager
+                        adapter = viewAdapter
+                    }
                 }
             }
 
             override fun onFailure(call: Call<List<VisitaAdapt>>, t: Throwable) {
-                Log.d("FAILURE", t.message.toString())
-                //myVisitas = VisitaAPI().getVisitas()
+                Log.d("ONFAILURE", t.message.toString())
             }
         })
 
-        //val myVisitas = VisitaAPI().getVisitas()
 
-        val viewManager = LinearLayoutManager(this.context)
-        val viewAdapter = VisitasAdapter(myVisitas) {
-                itemDto: VisitaAdapt, position: Int ->
-            listener!!.onSelectVisita(itemDto.visita_id)
-        }
-
-        recyclerView = binding.recyclerVisitas.apply {
-            layoutManager = viewManager
-            adapter = viewAdapter
-        }
     }
 
     override fun onAttach(context: Context) {
