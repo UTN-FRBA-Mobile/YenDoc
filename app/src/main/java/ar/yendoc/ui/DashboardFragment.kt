@@ -51,7 +51,6 @@ class DashboardFragment : Fragment() {
                 call: Call<List<VisitaAdapt>>,
                 response: Response<List<VisitaAdapt>>
             ) {
-                Log.d("ONRESPONSE", "LLEGUE")
                 if(response?.body() != null){
                     Log.d("BODY", response.body().toString())
                     for (i in 0 until (response.body()!!.size)){
@@ -61,7 +60,7 @@ class DashboardFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<List<VisitaAdapt>>, t: Throwable) {
-                Log.d("ONFAILURE", t.message.toString())
+                Log.d("FAILURE", t.message.toString())
                 //myVisitas = VisitaAPI().getVisitas()
             }
         })
