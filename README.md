@@ -16,9 +16,9 @@ Cuenta con una API para conectarse a una base de datos de donde obtiene los dato
 - [YenDoc-Api](https://github.com/UTN-FRBA-Mobile/YenDoc/tree/main/api)
 
 ## Autores
-Carolina Andrea D'Alfonso
-Julián Román
-Julián Simplituca
+Carolina Andrea D'Alfonso</br>
+Julián Román</br>
+Julián Simplituca</br>
 Vanina Aranda
 
 ## Capturas:
