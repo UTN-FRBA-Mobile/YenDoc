@@ -6,8 +6,10 @@ const bodyparser = require('body-parser')
 var logger = require('morgan');*/
 
 const indexRouter = require('./routes/index');
-const personasRouter = require('./routes/personas');
+const profesionalesRouter = require('./routes/profesionales');
 const pacientesRouter = require('./routes/pacientes');
+const visitasRouter = require('./routes/visitas');
+const diagnosticosRouter = require('./routes/diagnosticos');
 
 const app = express();
 
@@ -16,8 +18,10 @@ app.use(bodyparser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/personas', personasRouter);
+app.use('/profesionales', profesionalesRouter);
 app.use('/pacientes', pacientesRouter);
+app.use('/visitas', visitasRouter);
+app.use('/diagnosticos', diagnosticosRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

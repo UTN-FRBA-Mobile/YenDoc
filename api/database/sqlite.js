@@ -47,7 +47,7 @@ const sqlite = new sqlite3.Database(DBSOURCE, (err) => {
             profesional_id INTEGER NOT NULL,
             paciente_id INTEGER NOT NULL,
             diagnostico_id INTEGER,
-            realizada INTEGER
+            realizada INTEGER,
             FOREIGN KEY (profesional_id) 
               REFERENCES profesionales (profesional_id) 
                  ON DELETE NO ACTION
@@ -84,6 +84,13 @@ const sqlite = new sqlite3.Database(DBSOURCE, (err) => {
                 sqlite.run(insert, [new Date(), 2, 2, 'Paracetamol']);
                 }
             });
+        sqlite.run(visitasTable, (err) => { if (err) { console.error(err); }
+			else {
+				const insert = 'INSERT INTO visitas (fecha, profesional_id, paciente_id, diagnostico_id, realizada) VALUES (?,?,?,?,?)';
+				sqlite.run(insert, [new Date(), 1, 1, 1, 1]);
+				sqlite.run(insert, [new Date(2021, 9, 1), 2, 2, 2, 0]);
+            }
+        });
     }
 });
 
