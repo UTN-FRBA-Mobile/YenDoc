@@ -16,10 +16,10 @@ Cuenta con una API para conectarse a una base de datos de donde obtiene los dato
 - [YenDoc-Api](https://github.com/UTN-FRBA-Mobile/YenDoc/tree/main/api)
 
 ## Autores
-Carolina Andrea D'Alfonso</br>
-Julián Román</br>
-Julián Simplituca</br>
-Vanina Aranda
+- Carolina Andrea D'Alfonso</br>
+- Julián Román</br>
+- Julián Simplituca</br>
+- Vanina Aranda
 
 ## Capturas:
 
@@ -27,8 +27,8 @@ Vanina Aranda
 
 ## 
 <p align="center">
-  Hecho en <b><a href="https://developer.android.com/">Android Native</a></b>
+  Hecho en <b><a href="https://developer.android.com/kotlin?hl=es">Kotlin</a></b>
 </p>
 <p align="center">
-  <img src="https://img.icons8.com/fluency/144/000000/android-os.png" width="113px"/>
+  <img src="https://raw.githubusercontent.com/UTN-FRBA-Mobile/YenDoc/main/app/src/main/res/drawable-v24/kotlin.png" width="113px"/>
 </p>
