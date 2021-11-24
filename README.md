@@ -28,7 +28,7 @@ Cuenta con una API para conectarse a una base de datos de donde obtiene los dato
 ```
 **MIT License**
 
-Copyright (c) ~ 2021 ~ Yendoc
+Copyright (c) ~ 2021 ~ YenDoc
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
