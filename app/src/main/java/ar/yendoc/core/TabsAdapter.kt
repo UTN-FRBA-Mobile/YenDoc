@@ -17,9 +17,6 @@ class TabsAdapter(context: Context, fm: FragmentManager?, totalTabs: Int) :
     // this is for fragment tabs
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> {
-                VisitFragment()
-            }
             1 -> {
                 MapFragment()
             }

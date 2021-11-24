@@ -126,6 +126,11 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
 
         // Insert the fragment by replacing any existing fragment
         val fragmentManager = supportFragmentManager
+        if(nameFragment == "DashboardFragment"){
+            for (i in 0 until fragmentManager.getBackStackEntryCount()) {
+                fragmentManager.popBackStack()
+            }
+        }
         fragmentManager.beginTransaction().replace(R.id.container, fragment!!)
             .addToBackStack(nameFragment)
             .commit()
@@ -147,7 +152,7 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
     override fun onSelectVisita(idVisita: Int) {
         tabsFragment = TabsFragment()//Pasar el id de visita
         supportFragmentManager.popBackStack("DashboardFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        supportFragmentManager.beginTransaction().remove(dashboardFragment).add(R.id.container, tabsFragment)
+        supportFragmentManager.beginTransaction().remove(dashboardFragment).add(binding.container.id, tabsFragment)
             .commitNow()
     }
 
