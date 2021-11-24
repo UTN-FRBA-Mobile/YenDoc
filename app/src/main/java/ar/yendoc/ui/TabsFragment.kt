@@ -1,5 +1,8 @@
 package ar.yendoc.ui
 
+import android.R
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +15,7 @@ import com.google.android.material.tabs.TabLayout
 import androidx.fragment.app.FragmentActivity
 
 import android.app.Activity
-
-
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class TabsFragment : Fragment() {
@@ -24,6 +26,7 @@ class TabsFragment : Fragment() {
 
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager
+    private lateinit var bottomNavigation: BottomNavigationView
     private lateinit var myContext: FragmentActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -33,6 +36,8 @@ class TabsFragment : Fragment() {
         //setContentView(R.layout.activity_simple_tab_layout)
         tabLayout = _binding!!.tabLayout
         viewPager = _binding!!.viewPager
+        bottomNavigation = _binding!!.bottomNavigationView
+
         tabLayout.addTab(tabLayout.newTab().setText(getString(ar.yendoc.R.string.detalle)))
         tabLayout.addTab(tabLayout.newTab().setText(getString(ar.yendoc.R.string.mapa)))
         tabLayout.addTab(tabLayout.newTab().setText(getString(ar.yendoc.R.string.fotos)))
@@ -44,10 +49,23 @@ class TabsFragment : Fragment() {
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 viewPager.currentItem = tab.position
+                if(tab.position == 0){
+                    bottomNavigation.visibility = View.VISIBLE
+                }
+                else{
+                    bottomNavigation.visibility = View.GONE
+                }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {}
-            override fun onTabReselected(tab: TabLayout.Tab) {}
+            override fun onTabReselected(tab: TabLayout.Tab) {
+                if(tab.position == 0){
+                    bottomNavigation.visibility = View.VISIBLE
+                }
+                else{
+                    bottomNavigation.visibility = View.GONE
+                }
+            }
         })
 
         return binding.root
