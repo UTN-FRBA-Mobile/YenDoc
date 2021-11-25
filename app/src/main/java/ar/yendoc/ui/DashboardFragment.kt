@@ -13,12 +13,13 @@ import ar.yendoc.MainActivity
 import ar.yendoc.core.VisitasAdapter
 import ar.yendoc.databinding.FragmentDashboardBinding
 import ar.yendoc.network.ApiServices
+import ar.yendoc.network.Profesional
 import ar.yendoc.network.VisitaAdapt
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DashboardFragment : Fragment() {
+class DashboardFragment(val profesional: Profesional) : Fragment(){
     private var _binding: FragmentDashboardBinding? = null
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -38,10 +39,10 @@ class DashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as MainActivity).supportActionBar!!.show()
 
-        val profesional = 1
+        val profesional_id = profesional.profesional_id
         val myVisitas = mutableListOf<VisitaAdapt>()
 
-        val apiInterface = ApiServices.create().getVisitasByProfesionalId(profesional)
+        val apiInterface = ApiServices.create().getVisitasByProfesionalId(profesional_id)
         apiInterface.enqueue( object: Callback<List<VisitaAdapt>> {
             override fun onResponse(
                 call: Call<List<VisitaAdapt>>,
@@ -88,8 +89,8 @@ class DashboardFragment : Fragment() {
         listener = null
     }
 
-
     interface OnFragmentInteractionListener {
         fun onSelectVisita(visita_id: Int)
     }
+
 }

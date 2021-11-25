@@ -15,6 +15,7 @@ import com.google.android.material.navigation.NavigationView
 
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.core.view.GravityCompat
+import ar.yendoc.network.Profesional
 import ar.yendoc.ui.AboutFragment
 import ar.yendoc.ui.TabsFragment
 import java.lang.Exception
@@ -138,8 +139,8 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
         mDrawer!!.closeDrawers()
     }
 
-    override fun onLogin(username: String, password: String) {
-        dashboardFragment = DashboardFragment()
+    override fun onLogin(profesional: Profesional) {
+        dashboardFragment = DashboardFragment(profesional)
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         supportFragmentManager.beginTransaction().remove(loginFragment).add(binding.container.id, dashboardFragment).commitNow()
     }
