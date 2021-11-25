@@ -31,4 +31,7 @@
     <string name="fotos">Fotos</string>
     <string name="mapa">Mapa</string>
     <string name="detalle">Detalle</string>
+    <string name="receta">Receta</string>
+    <string name="camara">Cámara</string>
+    <string name="finalizar">Finalizar</string>
 </resources>
