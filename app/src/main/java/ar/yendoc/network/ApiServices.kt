@@ -14,6 +14,9 @@ interface ApiServices {
     @GET("profesionales")
     fun getAllProfesionales() : Call<List<Profesional>>
 
+    @GET("profesionales/getProfesionalByName/{name}")
+    fun getProfesionalByName(@Path("name") name : String) : Call<Profesional>
+
     @GET("profesionales/{profesional_id}")
     fun getProfesionalById(@Query("profesional_id") profesional_id : Int) : Call<Profesional>
     /*

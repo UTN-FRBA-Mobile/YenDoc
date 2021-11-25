@@ -2,6 +2,7 @@ package ar.yendoc.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ar.yendoc.MainActivity
 import ar.yendoc.databinding.FragmentLoginBinding
+import ar.yendoc.network.ApiServices
+import ar.yendoc.network.Profesional
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class LoginFragment: Fragment() {
     private var _binding: FragmentLoginBinding? = null
@@ -42,7 +48,22 @@ class LoginFragment: Fragment() {
                     toast.show()
                 }
                 else -> {
-                    listener!!.onLogin(usuario, contrasenia)
+                    val apiInterface = ApiServices.create().getProfesionalByName(usuario)
+                    apiInterface.enqueue( object : Callback<Profesional> {
+                        override fun onResponse(
+                            call: Call<Profesional>,
+                            response: Response<Profesional>
+                        ) {
+                            if(response.body() != null){
+                                val profesional : Profesional = response.body()!!
+                                listener!!.onLogin(profesional)
+                            }
+                        }
+
+                        override fun onFailure(call: Call<Profesional>, t: Throwable) {
+                            Log.d("ERROR: ", t.message.toString())
+                        }
+                    })
                 }
 
             }
@@ -65,6 +86,6 @@ class LoginFragment: Fragment() {
     }
 
     interface OnFragmentInteractionListener {
-        fun onLogin(username: String, password: String)
+        fun onLogin(profesional : Profesional)
     }
 }

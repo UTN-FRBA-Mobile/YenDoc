@@ -46,4 +46,18 @@ router.route('/:id/proximasVisitas')
         });
     });
 
+router.route('/getProfesionalByName/:name')
+    .get(async (req, res, next) => {
+        const { name } = req.params;
+        const sql = `SELECT * FROM profesionales WHERE nombre = ? ORDER BY 1 ASC LIMIT 1`;
+        sqlite.get(sql, [name], (err, rows) => {
+            if(err) {
+                res.status(400).json({"error": err.message});
+                throw err;
+            }
+            console.log("Solicitud realizada /profesionales/getProfesionalByName/" + name);
+            res.status(200).json(rows);
+        });
+    });
+
 module.exports = router;
