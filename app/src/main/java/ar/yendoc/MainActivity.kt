@@ -1,13 +1,14 @@
 package ar.yendoc
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import ar.yendoc.ui.LoginFragment
 import ar.yendoc.databinding.ActivityMainBinding
 import ar.yendoc.ui.DashboardFragment
@@ -15,7 +16,8 @@ import com.google.android.material.navigation.NavigationView
 
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.core.view.GravityCompat
-import ar.yendoc.network.Profesional
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import ar.yendoc.ui.AboutFragment
 import ar.yendoc.ui.TabsFragment
 import java.lang.Exception
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
     private var mDrawer: DrawerLayout? = null
     private val toolbar: Toolbar? = null
     private var drawerTl: ActionBarDrawerToggle? = null
+    private var idProfesional: Int = 0
 
     lateinit var binding: ActivityMainBinding
     private lateinit var loginFragment: Fragment
@@ -38,8 +41,6 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        //setContentView(R.layout.fragment_login)
 
         setSupportActionBar(binding.toolbarView.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -64,7 +65,10 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
         var nvDrawer: NavigationView = findViewById(R.id.nvView)
         setupDrawerContent(nvDrawer)
 
-        if (savedInstanceState == null) {
+        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
+        idProfesional = sharedPref.getInt("id_profesional",0)//Levanta el id del profesional logueado
+
+        if (idProfesional == 0) {
             loginFragment = LoginFragment()
 
             supportFragmentManager.beginTransaction()
@@ -121,6 +125,9 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
         }
 
         if(menuItem.itemId == R.id.logout){
+            val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
+            sharedPref?.edit()?.putInt("id_profesional",0)?.apply()//Limpia el id del profesional que estaba logueado
+
             finish()
             startActivity(intent)
         }
@@ -139,17 +146,19 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
         mDrawer!!.closeDrawers()
     }
 
-    override fun onLogin(profesional: Profesional) {
-        dashboardFragment = DashboardFragment(profesional)
-        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    override fun onLogin(profesional_id : Int) {
+
+        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
+        sharedPref?.edit()?.putInt("id_profesional",profesional_id)?.apply()//Guarda el id del profesional logueado
+
+        dashboardFragment = DashboardFragment()
         supportFragmentManager.beginTransaction().remove(loginFragment).add(binding.container.id, dashboardFragment).commitNow()
     }
 
     override fun onSelectVisita(idVisita: Int) {
         tabsFragment = TabsFragment()//Pasar el id de visita
-        supportFragmentManager.popBackStack("DashboardFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        supportFragmentManager.beginTransaction().remove(dashboardFragment).add(R.id.container, tabsFragment)
-            .commitNow()
+        supportFragmentManager.beginTransaction().add(binding.container.id, tabsFragment).addToBackStack(null)
+            .commit()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -161,5 +170,13 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if(idProfesional > 0){//TODO: Verificar cuándo se necesita recargar la lista al levantar de nuevo la app.
+            dashboardFragment = DashboardFragment()
+            supportFragmentManager.beginTransaction().remove(dashboardFragment).add(binding.container.id, dashboardFragment).commitNow()
+        }
     }
 }

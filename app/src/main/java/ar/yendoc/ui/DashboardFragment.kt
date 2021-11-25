@@ -13,17 +13,17 @@ import ar.yendoc.MainActivity
 import ar.yendoc.core.VisitasAdapter
 import ar.yendoc.databinding.FragmentDashboardBinding
 import ar.yendoc.network.ApiServices
-import ar.yendoc.network.Profesional
 import ar.yendoc.network.VisitaAdapt
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DashboardFragment(val profesional: Profesional) : Fragment(){
+class DashboardFragment() : Fragment() {
     private var _binding: FragmentDashboardBinding? = null
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private var idProfesional: Int = 0
 
     private var listener: DashboardFragment.OnFragmentInteractionListener? = null
 
@@ -32,6 +32,9 @@ class DashboardFragment(val profesional: Profesional) : Fragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
 
+        val sharedPref = this.activity?.getPreferences(Context.MODE_PRIVATE)
+        idProfesional = sharedPref?.getInt("id_profesional",0)!!//Levanta el id del profesional logueado
+
         return binding.root
     }
 
@@ -39,10 +42,26 @@ class DashboardFragment(val profesional: Profesional) : Fragment(){
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as MainActivity).supportActionBar!!.show()
 
-        val profesional_id = profesional.profesional_id
-        val myVisitas = mutableListOf<VisitaAdapt>()
+        TraerVisitasByProfesional()
+    }
 
-        val apiInterface = ApiServices.create().getVisitasByProfesionalId(profesional_id)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is DashboardFragment.OnFragmentInteractionListener) {
+            listener = context
+        } else {
+            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
+    }
+
+    fun TraerVisitasByProfesional(){
+        val myVisitas = mutableListOf<VisitaAdapt>()
+        val apiInterface = ApiServices.create().getVisitasByProfesionalId(idProfesional)
         apiInterface.enqueue( object: Callback<List<VisitaAdapt>> {
             override fun onResponse(
                 call: Call<List<VisitaAdapt>>,
@@ -71,26 +90,9 @@ class DashboardFragment(val profesional: Profesional) : Fragment(){
                 Log.d("ONFAILURE", t.message.toString())
             }
         })
-
-
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is DashboardFragment.OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
     }
 
     interface OnFragmentInteractionListener {
         fun onSelectVisita(visita_id: Int)
     }
-
 }

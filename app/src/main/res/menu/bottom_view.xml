@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/receta" android:id="@+id/action_receta" android:icon="@drawable/recipe"/>
+    <item android:title="@string/camara" android:id="@+id/action_camara" android:icon="@drawable/camera_"/>
+    <item android:title="@string/finalizar" android:id="@+id/action_finalizar" android:icon="@drawable/finish"/>
+</menu>
