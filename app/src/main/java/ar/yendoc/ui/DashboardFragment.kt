@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ar.yendoc.MainActivity
+import ar.yendoc.R
 import ar.yendoc.core.VisitasAdapter
 import ar.yendoc.databinding.FragmentDashboardBinding
 import ar.yendoc.network.ApiServices
@@ -33,7 +34,7 @@ class DashboardFragment() : Fragment() {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
 
         val sharedPref = this.activity?.getPreferences(Context.MODE_PRIVATE)
-        idProfesional = sharedPref?.getInt("id_profesional",0)!!//Levanta el id del profesional logueado
+        idProfesional = sharedPref?.getInt(getString(R.string.id_profesional),0)!!//Levanta el id del profesional logueado
 
         return binding.root
     }
@@ -50,7 +51,7 @@ class DashboardFragment() : Fragment() {
         if (context is DashboardFragment.OnFragmentInteractionListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+            throw RuntimeException(context.toString())
         }
     }
 
@@ -68,7 +69,7 @@ class DashboardFragment() : Fragment() {
                 response: Response<List<VisitaAdapt>>
             ) {
                 if(response?.body() != null){
-                    Log.d("BODY", response.body().toString())
+                    Log.d(getString(R.string.body), response.body().toString())
                     for (i in 0 until (response.body()!!.size)){
                         myVisitas.add(i, response.body()!![i])
                     }
@@ -87,7 +88,7 @@ class DashboardFragment() : Fragment() {
             }
 
             override fun onFailure(call: Call<List<VisitaAdapt>>, t: Throwable) {
-                Log.d("ONFAILURE", t.message.toString())
+                Log.d(getString(R.string.error), t.message.toString())
             }
         })
     }

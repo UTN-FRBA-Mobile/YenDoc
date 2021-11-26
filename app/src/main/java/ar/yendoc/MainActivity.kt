@@ -1,6 +1,8 @@
 package ar.yendoc
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -66,13 +68,20 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
         setupDrawerContent(nvDrawer)
 
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
-        idProfesional = sharedPref.getInt("id_profesional",0)//Levanta el id del profesional logueado
+        idProfesional = sharedPref.getInt(getString(R.string.id_profesional),0)//Levanta el id del profesional logueado
 
         if (idProfesional == 0) {
             loginFragment = LoginFragment()
 
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, loginFragment)
+                .commitNow()
+        }
+        else{
+            dashboardFragment = DashboardFragment()
+
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.container, dashboardFragment)
                 .commitNow()
         }
     }
@@ -114,42 +123,59 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
 
         when (menuItem.itemId) {
             R.id.home -> {
-                nameFragment = "DashboardFragment"
+                nameFragment = getString(R.string.dashboard_fragment)
             }
             R.id.about -> {
-                nameFragment = "AboutFragment"
+                nameFragment = getString(R.string.about_fragment)
             }
             R.id.logout -> {
                 nameFragment = null
+
+                val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+                builder.setTitle(getString(R.string.salir))
+                builder.setMessage(getString(R.string.seguro_cerrar_sesion))
+
+                builder.setPositiveButton(
+                    getString(R.string.si),
+                    DialogInterface.OnClickListener { dialog, which ->
+                        dialog.dismiss()
+                        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
+                        sharedPref?.edit()?.putInt(getString(R.string.id_profesional),0)?.apply()//Limpia el id del profesional que estaba logueado
+
+                        finish()
+                        startActivity(intent)
+                    })
+
+                builder.setNegativeButton(
+                    getString(R.string.no),
+                    DialogInterface.OnClickListener { dialog, which ->
+                        dialog.dismiss()
+                    })
+
+                val alert: AlertDialog = builder.create()
+                alert.show()
             }
         }
 
-        if(menuItem.itemId == R.id.logout){
-            val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
-            sharedPref?.edit()?.putInt("id_profesional",0)?.apply()//Limpia el id del profesional que estaba logueado
-
-            finish()
-            startActivity(intent)
-        }
-
         // Insert the fragment by replacing any existing fragment
-        val fragmentManager = supportFragmentManager
-        fragmentManager.beginTransaction().replace(R.id.container, fragment!!)
-            .addToBackStack(nameFragment)
-            .commit()
-
+        if(nameFragment != null){
+            val fragmentManager = supportFragmentManager
+            fragmentManager.beginTransaction().replace(R.id.container, fragment!!)
+                .addToBackStack(nameFragment)
+                .commit()
+            // Set action bar title
+            mTitle.text = menuItem.title
+            // Close the navigation drawer
+            mDrawer!!.closeDrawers()
+        }
         // Highlight the selected item has been done by NavigationView
-        menuItem.isChecked = true
-        // Set action bar title
-        mTitle.text = menuItem.title
-        // Close the navigation drawer
-        mDrawer!!.closeDrawers()
+        menuItem.isCheckable = false
     }
 
     override fun onLogin(profesional_id : Int) {
 
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
-        sharedPref?.edit()?.putInt("id_profesional",profesional_id)?.apply()//Guarda el id del profesional logueado
+        sharedPref?.edit()?.putInt(getString(R.string.id_profesional),profesional_id)?.apply()//Guarda el id del profesional logueado
 
         dashboardFragment = DashboardFragment()
         supportFragmentManager.beginTransaction().remove(loginFragment).add(binding.container.id, dashboardFragment).commitNow()
@@ -172,11 +198,4 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onStart() {
-        super.onStart()
-        if(idProfesional > 0){//TODO: Verificar cuándo se necesita recargar la lista al levantar de nuevo la app.
-            dashboardFragment = DashboardFragment()
-            supportFragmentManager.beginTransaction().remove(dashboardFragment).add(binding.container.id, dashboardFragment).commitNow()
-        }
-    }
 }

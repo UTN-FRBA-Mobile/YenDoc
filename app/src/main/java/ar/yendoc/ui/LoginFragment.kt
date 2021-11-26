@@ -12,6 +12,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ar.yendoc.MainActivity
+import ar.yendoc.R
 import ar.yendoc.databinding.FragmentLoginBinding
 import ar.yendoc.network.ApiServices
 import ar.yendoc.network.Profesional
@@ -42,8 +43,8 @@ class LoginFragment: Fragment() {
             val contrasenia = binding.inputContrasena.text.toString()
 
             when {
-                usuario.isEmpty() -> {
-                    val toast = Toast.makeText(activity, "Ingrese un usuario", Toast.LENGTH_SHORT)
+                usuario.isEmpty() or contrasenia.isEmpty() -> {
+                    val toast = Toast.makeText(activity, getString(R.string.usuario_contrasenia_obligatorio), Toast.LENGTH_SHORT)
                     toast.setGravity(Gravity.BOTTOM, 0, 0)
                     toast.show()
                 }
@@ -61,7 +62,11 @@ class LoginFragment: Fragment() {
                         }
 
                         override fun onFailure(call: Call<Profesional>, t: Throwable) {
-                            Log.d("ERROR: ", t.message.toString())
+                            Log.d(getString(R.string.error), t.message.toString())
+
+                            val toast = Toast.makeText(activity, getString(R.string.usuario_contrasenia_incorrecto), Toast.LENGTH_SHORT)
+                            toast.setGravity(Gravity.BOTTOM, 0, 0)
+                            toast.show()
                         }
                     })
                 }
@@ -76,7 +81,7 @@ class LoginFragment: Fragment() {
         if (context is OnFragmentInteractionListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+            throw RuntimeException(context.toString())
         }
     }
 

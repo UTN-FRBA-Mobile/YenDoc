@@ -1,12 +1,7 @@
 package ar.yendoc.ui
 
 import android.R
-import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import ar.yendoc.databinding.FragmentTabsBinding
 import androidx.viewpager.widget.ViewPager
@@ -15,11 +10,11 @@ import com.google.android.material.tabs.TabLayout
 import androidx.fragment.app.FragmentActivity
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.util.Log
-import androidx.fragment.app.FragmentTransaction
+import android.view.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import android.widget.TextView
-
+import android.content.DialogInterface
 
 
 
@@ -39,9 +34,7 @@ class TabsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentTabsBinding.inflate(inflater, container, false)
-        //super.onCreate(savedInstanceState)
 
-        //setContentView(R.layout.activity_simple_tab_layout)
         tabLayout = _binding!!.tabLayout
         viewPager = _binding!!.viewPager
         bottomNavigation = _binding!!.bottomNavigationView
@@ -68,21 +61,59 @@ class TabsFragment : Fragment() {
             override fun onTabReselected(tab: TabLayout.Tab) { }
         })
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
+        bottomNavigation.setOnItemSelectedListener {
+            when (it.itemId) {
+                bottomNavigation.menu.getItem(0).itemId -> {
+
+                    true
+                }
+                bottomNavigation.menu.getItem(1).itemId -> {
+
+                    true
+                }
+                bottomNavigation.menu.getItem(2).itemId -> {
+
+                    val builder: AlertDialog.Builder = AlertDialog.Builder(this.context)
+                    builder.setTitle(getString(ar.yendoc.R.string.finalizar))
+                    builder.setMessage(getString(ar.yendoc.R.string.pudo_atender_correctamente))
+
+                    builder.setPositiveButton(
+                        getString(ar.yendoc.R.string.si),
+                        DialogInterface.OnClickListener { dialog, which ->
+                            //TODO: Persistir el Sí en la base
+                            dialog.dismiss()
+                            VolverYActualizar()
+                        })
+
+                    builder.setNegativeButton(
+                        getString(ar.yendoc.R.string.no),
+                        DialogInterface.OnClickListener { dialog, which ->
+                            //TODO: Persistir el No en la base
+                            dialog.dismiss()
+                            VolverYActualizar()
+                        })
+
+                    val alert: AlertDialog = builder.create()
+                    alert.show()
+
+                    true
+                }
+                else -> false
+            }
+        }
 
         return binding.root
+    }
+
+    fun VolverYActualizar() {
+        var lastFragment = parentFragmentManager.fragments.last()
+        parentFragmentManager.popBackStack()
+        parentFragmentManager.beginTransaction().detach(lastFragment).attach(lastFragment).commit()//TODO: Verificar recarga del fragment Dashboard al finalizar visita.
     }
 
     override fun onResume() {
         super.onResume()
         viewPager.setCurrentItem(0, false)
-    }
-
-    override fun onPause() {
-        super.onPause()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 
     override fun onAttach(activity: Activity) {

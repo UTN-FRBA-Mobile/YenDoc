@@ -34,4 +34,16 @@
     <string name="receta">Receta</string>
     <string name="camara">Cámara</string>
     <string name="finalizar">Finalizar</string>
+    <string name="pudo_atender_correctamente">¿Pudo atender correctamente al paciente?</string>
+    <string name="usuario_contrasenia_obligatorio">Ingrese un usuario y contraseña</string>
+    <string name="usuario_contrasenia_incorrecto">Usuario y/o contraseña incorrectos</string>
+    <string name="salir">Salir</string>
+    <string name="seguro_cerrar_sesion">¿Está seguro que desea cerrar sesión?</string>
+    <string name="id_profesional">id_profesional</string>
+    <string name="dashboard_fragment">DashboardFragment</string>
+    <string name="about_fragment">AboutFragment</string>
+    <string name="si">Sí</string>
+    <string name="no">No</string>
+    <string name="error">\"ERROR: \"</string>
+    <string name="body">BODY</string>
 </resources>

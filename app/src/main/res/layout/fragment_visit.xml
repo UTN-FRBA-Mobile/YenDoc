@@ -129,7 +129,7 @@
             android:layout_height="fill_parent"
             android:textSize="15dp"
             android:gravity="top"
-            android:text="@string/diagnostico_generico" />
+            android:text="" />
 
     </LinearLayout>
 
