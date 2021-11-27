@@ -26,6 +26,14 @@ interface ApiServices {
     @GET("profesionales/{id}/proximasVisitas")
     fun getVisitasByProfesionalId(@Path("id") profesional_id : Int) : Call<List<VisitaAdapt>>
 
+    //Visitas
+    @GET("visita/{visita_id}")
+    fun getVisitaById(@Path("visita_id") visita_id : Int) : Call<Visita>
+
+    @FormUrlEncoded
+    @POST("visitas/estado")
+    fun updateEstado(@Field("visita_id") visita_id : Int, @Field("flag") flag : Int) : Call<Int>
+
     companion object {
 
         var BASE_URL = "http://10.0.2.2:3001/"

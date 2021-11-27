@@ -15,11 +15,13 @@ import android.util.Log
 import android.view.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import android.content.DialogInterface
+import ar.yendoc.network.ApiServices
+import ar.yendoc.network.VisitaAdapt
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-
-
-
-class TabsFragment : Fragment() {
+class TabsFragment(val idVisita : Int) : Fragment() {
     private var _binding: FragmentTabsBinding? = null
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -80,17 +82,37 @@ class TabsFragment : Fragment() {
                     builder.setPositiveButton(
                         getString(ar.yendoc.R.string.si),
                         DialogInterface.OnClickListener { dialog, which ->
-                            //TODO: Persistir el Sí en la base
-                            dialog.dismiss()
-                            VolverYActualizar()
+                            val apiInterface = ApiServices.create().updateEstado(idVisita, 1)
+                            apiInterface.enqueue( object : Callback<Int> {
+                                override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                                    if (response?.body() != null){
+                                        Log.d("BODY", response.body().toString())
+                                        dialog.dismiss()
+                                        VolverYActualizar()
+                                    }
+                                }
+                                override fun onFailure(call: Call<Int>, t: Throwable) {
+                                    Log.d("ERROR", t.message.toString())
+                                }
+                            })
                         })
 
                     builder.setNegativeButton(
                         getString(ar.yendoc.R.string.no),
                         DialogInterface.OnClickListener { dialog, which ->
-                            //TODO: Persistir el No en la base
-                            dialog.dismiss()
-                            VolverYActualizar()
+                            val apiInterface = ApiServices.create().updateEstado(idVisita, 2)
+                            apiInterface.enqueue( object : Callback<Int> {
+                                override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                                    if (response?.body() != null){
+                                        Log.d("BODY", response.body().toString())
+                                        dialog.dismiss()
+                                        VolverYActualizar()
+                                    }
+                                }
+                                override fun onFailure(call: Call<Int>, t: Throwable) {
+                                    Log.d("ERROR", t.message.toString())
+                                }
+                            })
                         })
 
                     val alert: AlertDialog = builder.create()

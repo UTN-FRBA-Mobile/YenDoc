@@ -16,6 +16,7 @@ data class Profesional (
 data class Paciente (
     @Json(name = "paciente_id") val paciente_id: Int,
     @Json(name = "nombre") val nombre: String,
+    @Json(name = "edad") val edad: Int? = null,
     @Json(name = "email") val email: String? = null,
     @Json(name = "telefono") val legajo: Int? = null,
     @Json(name = "direccion_calle") val direccion_calle: String,
@@ -26,22 +27,13 @@ data class Paciente (
 )
 
 @JsonClass(generateAdapter = true)
-data class Diagnostico (
-    @Json(name = "diagnostico_id") val diagnostico_id: Int,
-    @Json(name = "fecha") val fecha: Date? = null,
-    @Json(name = "profesional_id") val profesional_id: Int,
-    @Json(name = "paciente_id") val paciente_id: Int,
-    @Json(name = "diagnostico") val diagnostico: String
-)
-
-@JsonClass(generateAdapter = true)
 data class Visita (
     @Json(name = "visita_id") val visita_id: Int,
     @Json(name = "fecha") val fecha: Date? = null,
     @Json(name = "profesional_id") val profesional_id: Int,
     @Json(name = "paciente_id") val paciente_id: Int,
-    @Json(name = "diagnostico_id") val diagnostico_id: Int? = null,
-    @Json(name = "realizada") val realizada: Int? = 0
+    @Json(name = "diagnostico") val diagnostico: String? = null,
+    @Json(name = "estado") val realizada: Int? = 0
 )
 
 @JsonClass(generateAdapter = true)

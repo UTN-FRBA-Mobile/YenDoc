@@ -182,7 +182,7 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
     }
 
     override fun onSelectVisita(idVisita: Int) {
-        tabsFragment = TabsFragment()//Pasar el id de visita
+        tabsFragment = TabsFragment(idVisita)//Pasar el id de visita
         supportFragmentManager.beginTransaction().add(binding.container.id, tabsFragment).addToBackStack(null)
             .commit()
     }
