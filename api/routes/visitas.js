@@ -26,15 +26,15 @@ router.route('/:id')
         });
     });
 
-router.route('/:id/estado/:flag')
-    .get(async (req, res, next) => {
-        const {id, flag} = req.params;
-        sqlite.run("UPDATE visitas SET estado = ? WHERE visita_id = ?", [flag, id], (err) => {
+router.route('/estado')
+    .post(async (req, res, next) => {
+        const {visita_id, flag} = req.body;
+        sqlite.run("UPDATE visitas SET estado = ? WHERE visita_id = ?", [flag, visita_id], (err) => {
             if(err) {
                 res.status(400).json({"error": err.message});
                 throw err;
             }
-            console.log("Solicitud realizada /visitas/" + id + "/estado/" + flag);
+            console.log("Solicitud realizada /visitas/estado/");
             res.status(200).json(this.changes);
         });
     });

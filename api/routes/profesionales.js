@@ -32,7 +32,7 @@ router.route('/:id/proximasVisitas')
         const { id } = req.params;
         const sql = `SELECT visita_id, fecha, nombre as paciente, 
             direccion_calle || ' ' || CAST(direccion_numero as TEXT) as direccionPaciente,
-            realizada as estado_visita
+            estado as estado_visita
             FROM visitas 
             JOIN pacientes ON visitas.paciente_id = pacientes.paciente_id  
             WHERE profesional_id = ?`;
