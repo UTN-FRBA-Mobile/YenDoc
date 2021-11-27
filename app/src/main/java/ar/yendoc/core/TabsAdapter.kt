@@ -8,13 +8,11 @@ import ar.yendoc.ui.MapFragment
 import ar.yendoc.ui.PhotosFragment
 import ar.yendoc.ui.VisitFragment
 
-
 class TabsAdapter(context: Context, fm: FragmentManager?, totalTabs: Int) :
     FragmentPagerAdapter(fm!!) {
     private val myContext: Context
     var totalTabs: Int
 
-    // this is for fragment tabs
     override fun getItem(position: Int): Fragment {
         return when (position) {
             1 -> {
@@ -28,7 +26,6 @@ class TabsAdapter(context: Context, fm: FragmentManager?, totalTabs: Int) :
         }
     }
 
-    // this counts total number of tabs
     override fun getCount(): Int {
         return totalTabs
     }
