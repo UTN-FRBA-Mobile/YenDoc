@@ -17,7 +17,8 @@ const sqlite = new sqlite3.Database(DBSOURCE, (err) => {
         )`;
         const pacientesTable = `CREATE TABLE IF NOT EXISTS pacientes (
             paciente_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nombre TEXT, 
+            nombre TEXT,
+            edad INTEGER,
             email TEXT,
             telefono INTEGER,
             direccion_calle TEXT,
@@ -26,38 +27,19 @@ const sqlite = new sqlite3.Database(DBSOURCE, (err) => {
             direccion_longitud REAL,
             direccion_latitud REAL
         )`;
-        const diagnosticosTable = `CREATE TABLE IF NOT EXISTS diagnosticos (
-            diagnostico_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            fecha DATE,
-            profesional_id INTEGER NOT NULL,
-            paciente_id INTEGER NOT NULL,
-            diagnostico TEXT,
-            FOREIGN KEY (profesional_id) 
-              REFERENCES profesionales (profesional_id) 
-                 ON DELETE NO ACTION
-                 ON UPDATE NO ACTION,
-            FOREIGN KEY (paciente_id) 
-              REFERENCES pacientes (paciente_id) 
-                 ON DELETE NO ACTION
-                 ON UPDATE NO ACTION
-        )`;
         const visitasTable = `CREATE TABLE IF NOT EXISTS visitas (
             visita_id INTEGER PRIMARY KEY AUTOINCREMENT,
             fecha DATE,
             profesional_id INTEGER NOT NULL,
             paciente_id INTEGER NOT NULL,
-            diagnostico_id INTEGER,
-            realizada INTEGER,
+            diagnostico TEXT,
+            estado INTEGER,
             FOREIGN KEY (profesional_id) 
               REFERENCES profesionales (profesional_id) 
                  ON DELETE NO ACTION
                  ON UPDATE NO ACTION,
             FOREIGN KEY (paciente_id) 
               REFERENCES pacientes (paciente_id) 
-                 ON DELETE NO ACTION
-                 ON UPDATE NO ACTION,
-             FOREIGN KEY (diagnostico_id) 
-              REFERENCES diagnosticos (diagnostico_id) 
                  ON DELETE NO ACTION
                  ON UPDATE NO ACTION
         )`;
@@ -66,8 +48,8 @@ const sqlite = new sqlite3.Database(DBSOURCE, (err) => {
                 const insert = 'INSERT INTO profesionales (nombre, email, legajo) VALUES (?,?,?)';
                 sqlite.run(insert, ["admin","admin@example.com", 1]);
                 sqlite.run(insert, ["user","user@example.com", 2]);
-                sqlite.run(insert, ["Medico 1","med1@example.com", 3]);
-                sqlite.run(insert, ["Medico 2","med2@example.com", 4]);
+                sqlite.run(insert, ["Juan","med1@example.com", 3]);
+                sqlite.run(insert, ["Pepe","med2@example.com", 4]);
                 }
             });
         sqlite.run(pacientesTable, (err) => { if (err) { console.error(err); }
@@ -75,13 +57,6 @@ const sqlite = new sqlite3.Database(DBSOURCE, (err) => {
                 const insert = 'INSERT INTO pacientes (nombre, email, telefono, direccion_calle, direccion_numero) VALUES (?,?,?,?,?)';
                 sqlite.run(insert, ["Paciente 1","med1@example.com", 4654321, 'Avellaneda', 96]);
                 sqlite.run(insert, ["Paciente 2","med2@example.com", 9843514, 'Rivadavia', 45]);
-                }
-            });
-        sqlite.run(diagnosticosTable, (err) => { if (err) { console.error(err); }
-            else {
-                const insert = 'INSERT INTO diagnosticos (fecha, profesional_id, paciente_id, diagnostico) VALUES (?,?,?,?)';
-                sqlite.run(insert, [new Date(), 1, 1, 'Reposo']);
-                sqlite.run(insert, [new Date(), 2, 2, 'Paracetamol']);
                 }
             });
         sqlite.run(visitasTable, (err) => { if (err) { console.error(err); }
