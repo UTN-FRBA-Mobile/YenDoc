@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import ar.yendoc.MainActivity
 import ar.yendoc.R
 import ar.yendoc.core.VisitasAdapter
@@ -30,9 +31,11 @@ class DashboardFragment() : Fragment() {
     private var doRefresh : Boolean = false
     private var listener: DashboardFragment.OnFragmentInteractionListener? = null
     private lateinit var recyclerView: RecyclerView
+    private lateinit var swipeRefresh: SwipeRefreshLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        swipeRefresh = binding.swiperefresh
 
         val sharedPref = this.activity?.getPreferences(Context.MODE_PRIVATE)
         idProfesional = sharedPref?.getInt(getString(R.string.id_profesional),0)!!//Levanta el id del profesional logueado
@@ -56,6 +59,11 @@ class DashboardFragment() : Fragment() {
                     }
                 }
             })
+
+        swipeRefresh.setOnRefreshListener {
+            traerVisitasByProfesional()                   // refresh your list contents somehow
+            swipeRefresh.isRefreshing = false   // reset the SwipeRefreshLayout (stop the loading spinner)
+        }
     }
 
     override fun onResume() {
