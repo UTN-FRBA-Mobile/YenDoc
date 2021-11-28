@@ -11,6 +11,7 @@ const sqlite = new sqlite3.Database(DBSOURCE, (err) => {
         console.log('Connected to the SQLite database.');
         const profesionalesTable = `CREATE TABLE IF NOT EXISTS profesionales (
             profesional_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            usuario TEXT,
             nombre TEXT, 
             email TEXT,
             legajo INTEGER
@@ -45,18 +46,18 @@ const sqlite = new sqlite3.Database(DBSOURCE, (err) => {
         )`;
         sqlite.run(profesionalesTable, (err) => { if (err) { console.error(err); }
             else {
-                const insert = 'INSERT INTO profesionales (nombre, email, legajo) VALUES (?,?,?)';
-                sqlite.run(insert, ["admin","admin@example.com", 1]);
-                sqlite.run(insert, ["user","user@example.com", 2]);
-                sqlite.run(insert, ["Juan","med1@example.com", 3]);
-                sqlite.run(insert, ["Pepe","med2@example.com", 4]);
+                const insert = 'INSERT INTO profesionales (usuario, nombre, email, legajo) VALUES (?,?,?,?)';
+                sqlite.run(insert, ["admin", "admin","admin@example.com", 1]);
+                sqlite.run(insert, ["admin", "user","user@example.com", 2]);
+                sqlite.run(insert, ["Juan", "Juan Perez","med1@example.com", 3]);
+                sqlite.run(insert, ["Pepe", "Pepe Medina","med2@example.com", 4]);
                 }
             });
         sqlite.run(pacientesTable, (err) => { if (err) { console.error(err); }
             else {
                 const insert = 'INSERT INTO pacientes (nombre, email, telefono, direccion_calle, direccion_numero) VALUES (?,?,?,?,?)';
-                sqlite.run(insert, ["Paciente 1","med1@example.com", 4654321, 'Avellaneda', 96]);
-                sqlite.run(insert, ["Paciente 2","med2@example.com", 9843514, 'Rivadavia', 45]);
+                sqlite.run(insert, ["Micaela","med1@example.com", 4654321, 'Avellaneda', 96]);
+                sqlite.run(insert, ["Sofia","med2@example.com", 9843514, 'Rivadavia', 45]);
                 }
             });
         sqlite.run(visitasTable, (err) => { if (err) { console.error(err); }

@@ -49,7 +49,7 @@ class LoginFragment: Fragment() {
                     toast.show()
                 }
                 else -> {
-                    val apiInterface = ApiServices.create().getProfesionalByName(usuario)
+                    val apiInterface = ApiServices.create().getProfesionalByUser(usuario)
                     apiInterface.enqueue( object : Callback<Profesional> {
                         override fun onResponse(
                             call: Call<Profesional>,

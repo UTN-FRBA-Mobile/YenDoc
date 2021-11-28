@@ -7,6 +7,7 @@ import java.util.*
 @JsonClass(generateAdapter = true)
 data class Profesional (
     @Json(name = "profesional_id") val profesional_id: Int,
+    @Json(name = "usuario") val usuario: String,
     @Json(name = "nombre") val nombre: String,
     @Json(name = "email") val email: String,
     @Json(name = "legajo") val legajo: Int
