@@ -62,7 +62,7 @@ class VisitFragment : Fragment() {
     }
 
     private fun getPaciente(){
-        val apiInterface = ApiServices.create().getPacienteById(visita.paciente_id)
+        val apiInterface = ApiServices.create().getPacienteById(visita!!.paciente_id)
         apiInterface.enqueue( object : Callback<Paciente> {
             override fun onResponse(call: Call<Paciente>, response: Response<Paciente>
             ) {
