@@ -57,7 +57,7 @@ class LoginFragment: Fragment() {
                         ) {
                             if(response.body() != null){
                                 val profesional : Profesional = response.body()!!
-                                listener!!.onLogin(profesional.profesional_id)
+                                listener!!.onLogin(profesional)
                             }
                         }
 
@@ -91,6 +91,6 @@ class LoginFragment: Fragment() {
     }
 
     interface OnFragmentInteractionListener {
-        fun onLogin(profesional_id : Int)
+        fun onLogin(profesional : Profesional)
     }
 }

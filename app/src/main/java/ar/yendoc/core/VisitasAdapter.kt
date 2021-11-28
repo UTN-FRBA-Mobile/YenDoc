@@ -26,7 +26,6 @@ class VisitasAdapter (private val myDataset: MutableList<VisitaAdapt>, private v
 
         var item : VisitaAdapt = myDataset[position]
 
-        // Calling the clickListener sent by the constructor
         holder?.view?.setOnClickListener { clickListener(item, position) }
 
         holder.view.findViewById<TextView>(R.id.paciente).text = myDataset[position].paciente

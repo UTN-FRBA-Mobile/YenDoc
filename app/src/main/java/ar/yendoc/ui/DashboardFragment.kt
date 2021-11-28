@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import ar.yendoc.MainActivity
 import ar.yendoc.R
 import ar.yendoc.core.VisitasAdapter
@@ -19,19 +21,21 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
 class DashboardFragment() : Fragment() {
     private var _binding: FragmentDashboardBinding? = null
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
     private var idProfesional: Int = 0
+    private val myVisitas = mutableListOf<VisitaAdapt>()
 
+    private var doRefresh : Boolean = false
     private var listener: DashboardFragment.OnFragmentInteractionListener? = null
-
     private lateinit var recyclerView: RecyclerView
+    private lateinit var swipeRefresh: SwipeRefreshLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        swipeRefresh = binding.swiperefresh
 
         val sharedPref = this.activity?.getPreferences(Context.MODE_PRIVATE)
         idProfesional = sharedPref?.getInt(getString(R.string.id_profesional),0)!!//Levanta el id del profesional logueado
@@ -43,7 +47,31 @@ class DashboardFragment() : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as MainActivity).supportActionBar!!.show()
 
-        TraerVisitasByProfesional()
+        traerVisitasByProfesional()
+
+        parentFragmentManager!!.addOnBackStackChangedListener(
+            object : FragmentManager.OnBackStackChangedListener {
+                override fun onBackStackChanged() {
+                    val currentFragment: Fragment? = parentFragmentManager.findFragmentById(ar.yendoc.R.id.container)
+                    if (currentFragment?.javaClass?.simpleName.toString() ==  DashboardFragment().javaClass.simpleName.toString()){
+                        doRefresh = true
+                        currentFragment?.onResume()
+                    }
+                }
+            })
+
+        swipeRefresh.setOnRefreshListener {
+            traerVisitasByProfesional()                   // refresh your list contents somehow
+            swipeRefresh.isRefreshing = false   // reset the SwipeRefreshLayout (stop the loading spinner)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(doRefresh){
+            traerVisitasByProfesional()
+            doRefresh = false
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -60,8 +88,7 @@ class DashboardFragment() : Fragment() {
         listener = null
     }
 
-    fun TraerVisitasByProfesional(){
-        val myVisitas = mutableListOf<VisitaAdapt>()
+    private fun traerVisitasByProfesional(){
         val apiInterface = ApiServices.create().getVisitasByProfesionalId(idProfesional)
         apiInterface.enqueue( object: Callback<List<VisitaAdapt>> {
             override fun onResponse(
@@ -70,6 +97,7 @@ class DashboardFragment() : Fragment() {
             ) {
                 if(response?.body() != null){
                     Log.d(getString(R.string.body), response.body().toString())
+                    myVisitas.clear()
                     for (i in 0 until (response.body()!!.size)){
                         myVisitas.add(i, response.body()!![i])
                     }

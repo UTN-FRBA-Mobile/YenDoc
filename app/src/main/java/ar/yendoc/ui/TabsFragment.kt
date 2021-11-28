@@ -23,8 +23,6 @@ import retrofit2.Response
 
 class TabsFragment(val idVisita : Int) : Fragment() {
     private var _binding: FragmentTabsBinding? = null
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     private lateinit var tabLayout: TabLayout
@@ -88,11 +86,13 @@ class TabsFragment(val idVisita : Int) : Fragment() {
                                     if (response?.body() != null){
                                         Log.d("BODY", response.body().toString())
                                         dialog.dismiss()
-                                        VolverYActualizar()
+                                        volverYActualizar()
                                     }
                                 }
                                 override fun onFailure(call: Call<Int>, t: Throwable) {
                                     Log.d("ERROR", t.message.toString())
+                                    dialog.dismiss()
+                                    volverYActualizar()
                                 }
                             })
                         })
@@ -106,11 +106,13 @@ class TabsFragment(val idVisita : Int) : Fragment() {
                                     if (response?.body() != null){
                                         Log.d("BODY", response.body().toString())
                                         dialog.dismiss()
-                                        VolverYActualizar()
+                                        volverYActualizar()
                                     }
                                 }
                                 override fun onFailure(call: Call<Int>, t: Throwable) {
                                     Log.d("ERROR", t.message.toString())
+                                    dialog.dismiss()
+                                    volverYActualizar()
                                 }
                             })
                         })
@@ -127,10 +129,8 @@ class TabsFragment(val idVisita : Int) : Fragment() {
         return binding.root
     }
 
-    fun VolverYActualizar() {
-        var lastFragment = parentFragmentManager.fragments.last()
+    fun volverYActualizar() {
         parentFragmentManager.popBackStack()
-        parentFragmentManager.beginTransaction().detach(lastFragment).attach(lastFragment).commit()//TODO: Verificar recarga del fragment Dashboard al finalizar visita.
     }
 
     override fun onResume() {
