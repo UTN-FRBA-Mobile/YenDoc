@@ -34,6 +34,7 @@ const sqlite = new sqlite3.Database(DBSOURCE, (err) => {
             profesional_id INTEGER NOT NULL,
             paciente_id INTEGER NOT NULL,
             diagnostico TEXT,
+            sintomas TEXT,
             estado INTEGER,
             FOREIGN KEY (profesional_id) 
               REFERENCES profesionales (profesional_id) 
@@ -62,9 +63,9 @@ const sqlite = new sqlite3.Database(DBSOURCE, (err) => {
             });
         sqlite.run(visitasTable, (err) => { if (err) { console.error(err); }
 			else {
-				const insert = 'INSERT INTO visitas (fecha, profesional_id, paciente_id, diagnostico, estado) VALUES (?,?,?,?,?)';
-				sqlite.run(insert, [new Date(), 1, 1, "Mocos", 1]);
-				sqlite.run(insert, [new Date(2021, 9, 1), 2, 2, "Tos", 0]);
+				const insert = 'INSERT INTO visitas (fecha, profesional_id, paciente_id, diagnostico, sintomas, estado) VALUES (?,?,?,?,?,?)';
+				sqlite.run(insert, [new Date(), 1, 1, "Gripe", "Mocos", 1]);
+				sqlite.run(insert, [new Date(2021, 9, 1), 2, 2, "Covid", "Tos", 0]);
             }
         });
     }

@@ -34,6 +34,7 @@ data class Visita (
     @Json(name = "profesional_id") val profesional_id: Int,
     @Json(name = "paciente_id") val paciente_id: Int,
     @Json(name = "diagnostico") val diagnostico: String? = null,
+    @Json(name = "sintomas") val sintomas: String? = null,
     @Json(name = "estado") val realizada: Int? = 0
 )
 
