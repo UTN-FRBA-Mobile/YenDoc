@@ -11,10 +11,12 @@ import androidx.fragment.app.FragmentActivity
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.util.Log
 import android.view.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import android.content.DialogInterface
+import android.content.SharedPreferences
 import ar.yendoc.network.ApiServices
 import ar.yendoc.network.VisitaAdapt
 import retrofit2.Call
@@ -31,6 +33,7 @@ class TabsFragment(val idVisita : Int) : Fragment() {
     private lateinit var myContext: FragmentActivity
 
     private lateinit var visitFragment: Fragment
+    private lateinit var sharedPref: SharedPreferences
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentTabsBinding.inflate(inflater, container, false)
@@ -125,6 +128,9 @@ class TabsFragment(val idVisita : Int) : Fragment() {
                 else -> false
             }
         }
+
+        sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        sharedPref?.edit()?.putInt(getString(ar.yendoc.R.string.id_visita), idVisita)?.apply()
 
         return binding.root
     }
