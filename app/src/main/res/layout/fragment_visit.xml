@@ -29,11 +29,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="0"
-            android:textColor="@color/black"
-            android:paddingBottom="12dp"
+            android:layout_marginStart="0dp"
             android:layout_toEndOf="@+id/lblDireccion"
-            android:text="@string/nombre_paciente"/>
+            android:layout_weight="0"
+            android:paddingBottom="12dp"
+            android:text=""
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/lblDireccion"
@@ -51,13 +52,13 @@
             android:id="@+id/address_paciente"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="0"
-            android:textColor="@color/black"
-            android:paddingBottom="12dp"
-            android:layout_toEndOf="@+id/lblDireccion"
             android:layout_below="@+id/name_paciente"
-            android:text="@string/direccion_generica"/>
+            android:layout_gravity="center_horizontal"
+            android:layout_toEndOf="@+id/lblDireccion"
+            android:layout_weight="0"
+            android:paddingBottom="12dp"
+            android:text=""
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/lblEdad"
@@ -75,13 +76,13 @@
             android:id="@+id/age_paciente"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="0"
-            android:textColor="@color/black"
-            android:paddingBottom="12dp"
-            android:layout_toEndOf="@+id/lblDireccion"
             android:layout_below="@+id/address_paciente"
-            android:text="@string/edad_generica"/>
+            android:layout_gravity="center_horizontal"
+            android:layout_toEndOf="@+id/lblDireccion"
+            android:layout_weight="0"
+            android:paddingBottom="12dp"
+            android:text=""
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/lblSintomas"
@@ -104,7 +105,7 @@
             android:layout_toEndOf="@+id/lblDireccion"
             android:layout_weight="0"
             android:paddingBottom="12dp"
-            android:text="@string/sintomas_genericos"
+            android:text=""
             android:textColor="@color/black" />
     </RelativeLayout>
 

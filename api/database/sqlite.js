@@ -56,9 +56,9 @@ const sqlite = new sqlite3.Database(DBSOURCE, (err) => {
             });
         sqlite.run(pacientesTable, (err) => { if (err) { console.error(err); }
             else {
-                const insert = 'INSERT INTO pacientes (nombre, email, telefono, direccion_calle, direccion_numero) VALUES (?,?,?,?,?)';
-                sqlite.run(insert, ["Micaela","med1@example.com", 4654321, 'Avellaneda', 96]);
-                sqlite.run(insert, ["Sofia","med2@example.com", 9843514, 'Rivadavia', 45]);
+                const insert = 'INSERT INTO pacientes (nombre, edad, email, telefono, direccion_calle, direccion_numero) VALUES (?,?,?,?,?,?)';
+                sqlite.run(insert, ["Micaela", 24,"med1@example.com", 4654321, 'Avellaneda', 96]);
+                sqlite.run(insert, ["Sofia", 32,"med2@example.com", 9843514, 'Rivadavia', 45]);
                 }
             });
         sqlite.run(visitasTable, (err) => { if (err) { console.error(err); }

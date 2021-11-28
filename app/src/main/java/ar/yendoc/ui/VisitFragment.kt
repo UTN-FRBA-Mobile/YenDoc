@@ -79,11 +79,10 @@ class VisitFragment : Fragment() {
     }
 
     private fun llenarDatos(){
-        //TODO: Completar datos al obtenerlos del getPaciente()
-        binding.lblPaciente.text = paciente?.nombre
-        binding.lblEdad.text = paciente?.edad.toString() + " años"
+        binding.namePaciente.setText(paciente?.nombre)
+        binding.agePaciente.setText(paciente?.edad.toString() + " años")
         binding.addressPaciente.text = paciente?.direccion_calle + " " +  paciente?.direccion_numero
-        //bindin.symptom_paciente.text = visita?.sintomas
+        binding.symptomPaciente.text = visita?.sintomas
         binding.diagnostic.setText(visita?.diagnostico)
     }
 }
