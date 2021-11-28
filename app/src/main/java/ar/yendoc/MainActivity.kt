@@ -3,6 +3,7 @@ package ar.yendoc
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -16,6 +17,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.core.view.GravityCompat
 import ar.yendoc.ui.*
 import java.lang.Exception
+import android.view.View
+import ar.yendoc.network.Profesional
 
 
 class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionListener, DashboardFragment.OnFragmentInteractionListener {
@@ -24,8 +27,8 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
     private val toolbar: Toolbar? = null
     private var drawerTl: ActionBarDrawerToggle? = null
     private var idProfesional: Int = 0
-
     lateinit var binding: ActivityMainBinding
+    private lateinit var sharedPref: SharedPreferences
     private lateinit var loginFragment: Fragment
     private lateinit var dashboardFragment: Fragment
     private lateinit var tabsFragment: Fragment
@@ -54,19 +57,18 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
         var nvDrawer: NavigationView = findViewById(R.id.nvView)
         setupDrawerContent(nvDrawer)
 
-        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
+        sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         idProfesional = sharedPref.getInt(getString(R.string.id_profesional),0)//Levanta el id del profesional logueado
 
         if (idProfesional == 0) {
             loginFragment = LoginFragment()
-
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, loginFragment)
                 .commitNow()
         }
         else{
+            setNombreProfesional()
             dashboardFragment = DashboardFragment()
-
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, dashboardFragment)
                 .commitNow()
@@ -80,6 +82,13 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
 
     private fun getFragment(): Fragment? {
         return supportFragmentManager.findFragmentById(R.id.container)
+    }
+
+    private fun setNombreProfesional() {
+        val navigationView = binding.nvView as NavigationView
+        val headerView: View = navigationView.getHeaderView(0)
+        headerView.findViewById<TextView>(R.id.doctor_name).text = sharedPref.getString(getString(R.string.nombre_profesional), getString(R.string.nombre_generico))
+
     }
 
     private fun setTitleFromFragment(fragment: Fragment?) {
@@ -149,7 +158,6 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
                     getString(R.string.si),
                     DialogInterface.OnClickListener { dialog, which ->
                         dialog.dismiss()
-                        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
                         sharedPref?.edit()?.putInt(getString(R.string.id_profesional),0)?.apply()//Limpia el id del profesional que estaba logueado
 
                         finish()
@@ -179,10 +187,11 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
         menuItem.isCheckable = false
     }
 
-    override fun onLogin(profesional_id : Int) {
+    override fun onLogin(profesional : Profesional) {
+        sharedPref?.edit()?.putInt(getString(R.string.id_profesional), profesional.profesional_id)?.apply()//Guarda el id del profesional logueado
+        sharedPref?.edit()?.putString(getString(R.string.nombre_profesional), profesional.nombre)?.apply()
 
-        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
-        sharedPref?.edit()?.putInt(getString(R.string.id_profesional),profesional_id)?.apply()//Guarda el id del profesional logueado
+        setNombreProfesional()
 
         dashboardFragment = DashboardFragment()
         supportFragmentManager.beginTransaction().remove(loginFragment).add(binding.container.id, dashboardFragment).commitNow()
