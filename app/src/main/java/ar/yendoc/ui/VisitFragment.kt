@@ -62,7 +62,19 @@ class VisitFragment : Fragment() {
     }
 
     private fun getPaciente(){
-        //TODO: Agregar método que traiga los datos del paciente
+        val apiInterface = ApiServices.create().getPacienteById(visita.paciente_id)
+        apiInterface.enqueue( object : Callback<Paciente> {
+            override fun onResponse(call: Call<Paciente>, response: Response<Paciente>
+            ) {
+                if(response?.body() != null){
+                    paciente = response.body()!!
+                }
+            }
+
+            override fun onFailure(call: Call<Paciente>, t: Throwable) {
+                Log.d(getString(R.string.error), t.message.toString())
+            }
+        })
     }
 
     private fun llenarDatos(){
