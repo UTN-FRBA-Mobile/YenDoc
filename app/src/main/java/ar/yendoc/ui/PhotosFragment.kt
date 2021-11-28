@@ -5,11 +5,12 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Environment
 import android.os.Parcelable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridView
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -18,11 +19,12 @@ import ar.yendoc.R
 import ar.yendoc.databinding.FragmentPhotosBinding
 import com.squareup.picasso.Picasso
 import kotlinx.android.parcel.Parcelize
+import java.io.File
 
 class PhotosFragment : Fragment() {
 
     companion object {
-        const val EXTRA_SUNSET_PHOTO = "SunsetPhotoActivity.EXTRA_SUNSET_PHOTO"
+        const val EXTRA_PHOTO = "PhotosFragment.PHOTOS"
     }
 
     private var _binding: FragmentPhotosBinding? = null
@@ -42,7 +44,7 @@ class PhotosFragment : Fragment() {
         recyclerView = this.binding.rvImages
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = layoutManager
-        imageGalleryAdapter = ImageGalleryAdapter(this.requireActivity().baseContext, SunsetPhoto.getSunsetPhotos())
+        imageGalleryAdapter = ImageGalleryAdapter(this.requireActivity().baseContext, GalleryPhotos.getPhotos())
 
         return binding.root
     }
@@ -52,7 +54,7 @@ class PhotosFragment : Fragment() {
         recyclerView.adapter = imageGalleryAdapter
     }
 
-    private inner class ImageGalleryAdapter(val context: Context, val sunsetPhotos: Array<SunsetPhoto>)
+    private inner class ImageGalleryAdapter(val context: Context, val photos: Array<GalleryPhotos>)
         : RecyclerView.Adapter<ImageGalleryAdapter.MyViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageGalleryAdapter.MyViewHolder {
@@ -63,19 +65,19 @@ class PhotosFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: ImageGalleryAdapter.MyViewHolder, position: Int) {
-            val sunsetPhoto = sunsetPhotos[position]
+            val galleryPhoto = photos[position]
             val imageView = holder.photoImageView
 
             Picasso.get()
-                .load(sunsetPhoto.url)
-                .placeholder(ColorDrawable(Color.GREEN))
-                .error(ColorDrawable(Color.RED))
+                .load(galleryPhoto.url)
+                .placeholder(ColorDrawable(Color.WHITE))
+                .error(ColorDrawable(Color.BLACK))
                 .fit()
                 .into(imageView)
         }
 
         override fun getItemCount(): Int {
-            return sunsetPhotos.size
+            return photos.size
         }
 
         inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
@@ -89,9 +91,9 @@ class PhotosFragment : Fragment() {
             override fun onClick(view: View) {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    val sunsetPhoto = sunsetPhotos[position]
+                    val galleryPhoto = photos[position]
                     val intent = Intent(context, PhotosFragment::class.java).apply {
-                        putExtra(PhotosFragment.EXTRA_SUNSET_PHOTO, sunsetPhoto)
+                        putExtra(PhotosFragment.EXTRA_PHOTO, galleryPhoto)
                     }
                     startActivity(intent)
                 }
@@ -103,16 +105,19 @@ class PhotosFragment : Fragment() {
 }
 
 @Parcelize
-data class SunsetPhoto(val url: String) : Parcelable{
+data class GalleryPhotos(val url: String) : Parcelable{
 
     companion object {
-        fun getSunsetPhotos(): Array<SunsetPhoto> {
-            return arrayOf<SunsetPhoto>(SunsetPhoto("https://goo.gl/32YN2B"),
-                SunsetPhoto("https://goo.gl/Wqz4Ev"),
-                SunsetPhoto("https://goo.gl/U7XXdF"),
-                SunsetPhoto("https://goo.gl/ghVPFq"),
-                SunsetPhoto("https://goo.gl/qEaCWe"),
-                SunsetPhoto("https://goo.gl/vutGmM"))
+        fun getPhotos(): Array<GalleryPhotos> {
+            var rutas = arrayListOf<GalleryPhotos>()
+            val sdCard = Environment.getExternalStorageDirectory()
+            val dir = sdCard.absolutePath + "/yendoc"
+            File(dir).walk().forEach {
+                if(it.toString().contains(".jpg")){
+                    rutas.add(GalleryPhotos("file://$it"))
+                }
+            }
+            return rutas.toTypedArray()
         }
     }
 }
