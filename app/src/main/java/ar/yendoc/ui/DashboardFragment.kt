@@ -53,7 +53,7 @@ class DashboardFragment() : Fragment() {
             object : FragmentManager.OnBackStackChangedListener {
                 override fun onBackStackChanged() {
                     val currentFragment: Fragment? = parentFragmentManager.findFragmentById(ar.yendoc.R.id.container)
-                    if (currentFragment?.javaClass?.simpleName.toString() ==  DashboardFragment().javaClass.simpleName.toString()){
+                    if (currentFragment?.javaClass?.simpleName.toString() ==  getString(R.string.dashboard_fragment)){
                         doRefresh = true
                         currentFragment?.onResume()
                     }

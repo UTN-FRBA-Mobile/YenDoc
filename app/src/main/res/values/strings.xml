@@ -32,7 +32,7 @@
     <string name="fotos">Fotos</string>
     <string name="mapa">Mapa</string>
     <string name="detalle">Detalle</string>
-    <string name="receta">Receta</string>
+    <string name="receta">Foto Receta</string>
     <string name="camara">Cámara</string>
     <string name="finalizar">Finalizar</string>
     <string name="pudo_atender_correctamente">¿Pudo atender correctamente al paciente?</string>

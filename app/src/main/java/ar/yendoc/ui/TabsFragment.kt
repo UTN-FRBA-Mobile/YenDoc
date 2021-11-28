@@ -1,6 +1,7 @@
 package ar.yendoc.ui
 
 import android.Manifest
+import android.R
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import ar.yendoc.databinding.FragmentTabsBinding
@@ -32,11 +33,16 @@ import java.util.*
 import androidx.core.app.ActivityCompat
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContract
 
 
 class TabsFragment(val idVisita : Int) : Fragment() {
     private var _binding: FragmentTabsBinding? = null
     private val binding get() = _binding!!
+
+    private val CAMERA_PERMISSION_CODE = 1
+    private val STORAGE_PERMISSION_CODE = 2
 
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager
@@ -76,22 +82,6 @@ class TabsFragment(val idVisita : Int) : Fragment() {
         })
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
 
-        if (ContextCompat.checkSelfPermission(
-                myContext,
-                Manifest.permission.CAMERA
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            bottomNavigation.menu.getItem(0).setEnabled(false)
-            ActivityCompat.requestPermissions(
-                myContext,
-                arrayOf(
-                    Manifest.permission.CAMERA,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ),
-                0
-            )
-        }
-
         resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
@@ -102,12 +92,29 @@ class TabsFragment(val idVisita : Int) : Fragment() {
         bottomNavigation.setOnItemSelectedListener {
             when (it.itemId) {
                 bottomNavigation.menu.getItem(0).itemId -> {
-                    val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    resultLauncher.launch(cameraIntent)
+                    activity?.let {
+                        if (hasPermissions(activity as Context, PERMISSIONS)) {
+                            val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                            resultLauncher.launch(cameraIntent)
+                        } else {
+                            permReqLauncher.launch(
+                                PERMISSIONS
+                            )
+                        }
+                    }
                     true
                 }
                 bottomNavigation.menu.getItem(1).itemId -> {
-
+                    activity?.let {
+                        if (hasPermissions(activity as Context, PERMISSIONS)) {
+                            val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                            resultLauncher.launch(cameraIntent)
+                        } else {
+                            permReqLauncher.launch(
+                                PERMISSIONS
+                            )
+                        }
+                    }
                     true
                 }
                 bottomNavigation.menu.getItem(2).itemId -> {
@@ -171,12 +178,35 @@ class TabsFragment(val idVisita : Int) : Fragment() {
         return binding.root
     }
 
+    companion object {
+        val TAG: String = TabsFragment::class.java.simpleName
+        var PERMISSIONS = arrayOf(
+            Manifest.permission.CAMERA,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+    }
+
+    private val permReqLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            val granted = permissions.entries.all {
+                it.value == true
+            }
+            if (granted) {
+                val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                resultLauncher.launch(cameraIntent)
+            }
+        }
+
+    private fun hasPermissions(context: Context, permissions: Array<String>): Boolean = permissions.all {
+        ActivityCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
+    }
+
     private fun handleCameraImage(intent: Intent?) {
         val bitmap = intent?.extras?.get("data") as Bitmap
-
         var outStream: FileOutputStream? = null
         val sdCard = Environment.getExternalStorageDirectory()
-        val dir = File(sdCard.absolutePath + "/camtest")
+        val dir = File(sdCard.absolutePath + "/yendoc")
         Log.d("RUTAAA", dir.toString())
         dir.mkdirs()
         val fileName = String.format("%d.jpg", System.currentTimeMillis())
@@ -185,18 +215,6 @@ class TabsFragment(val idVisita : Int) : Fragment() {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream)
         outStream.flush()
         outStream.close()
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == 0) {
-            if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                bottomNavigation.menu.getItem(0).setEnabled(true)
-            }
-        }
     }
 
     fun volverYActualizar() {
