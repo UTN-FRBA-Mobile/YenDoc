@@ -1,6 +1,6 @@
 package ar.yendoc.ui
 
-import android.R
+import android.Manifest
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import ar.yendoc.databinding.FragmentTabsBinding
@@ -8,7 +8,6 @@ import androidx.viewpager.widget.ViewPager
 import ar.yendoc.core.TabsAdapter
 import com.google.android.material.tabs.TabLayout
 import androidx.fragment.app.FragmentActivity
-
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
@@ -16,12 +15,24 @@ import android.util.Log
 import android.view.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.provider.MediaStore
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import ar.yendoc.network.ApiServices
-import ar.yendoc.network.VisitaAdapt
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import android.os.Environment
+import java.io.File
+import java.io.FileOutputStream
+import java.util.*
+import androidx.core.app.ActivityCompat
+import android.content.pm.PackageManager
+import androidx.core.content.ContextCompat
+
 
 class TabsFragment(val idVisita : Int) : Fragment() {
     private var _binding: FragmentTabsBinding? = null
@@ -31,7 +42,7 @@ class TabsFragment(val idVisita : Int) : Fragment() {
     private lateinit var viewPager: ViewPager
     private lateinit var bottomNavigation: BottomNavigationView
     private lateinit var myContext: FragmentActivity
-
+    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private lateinit var visitFragment: Fragment
     private lateinit var sharedPref: SharedPreferences
 
@@ -64,10 +75,35 @@ class TabsFragment(val idVisita : Int) : Fragment() {
             override fun onTabReselected(tab: TabLayout.Tab) { }
         })
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
+
+        if (ContextCompat.checkSelfPermission(
+                myContext,
+                Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            bottomNavigation.menu.getItem(0).setEnabled(false)
+            ActivityCompat.requestPermissions(
+                myContext,
+                arrayOf(
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ),
+                0
+            )
+        }
+
+        resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    handleCameraImage(result.data)
+                }
+            }
+
         bottomNavigation.setOnItemSelectedListener {
             when (it.itemId) {
                 bottomNavigation.menu.getItem(0).itemId -> {
-
+                    val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                    resultLauncher.launch(cameraIntent)
                     true
                 }
                 bottomNavigation.menu.getItem(1).itemId -> {
@@ -133,6 +169,34 @@ class TabsFragment(val idVisita : Int) : Fragment() {
         sharedPref?.edit()?.putInt(getString(ar.yendoc.R.string.id_visita), idVisita)?.apply()
 
         return binding.root
+    }
+
+    private fun handleCameraImage(intent: Intent?) {
+        val bitmap = intent?.extras?.get("data") as Bitmap
+
+        var outStream: FileOutputStream? = null
+        val sdCard = Environment.getExternalStorageDirectory()
+        val dir = File(sdCard.absolutePath + "/camtest")
+        Log.d("RUTAAA", dir.toString())
+        dir.mkdirs()
+        val fileName = String.format("%d.jpg", System.currentTimeMillis())
+        val outFile = File(dir, fileName)
+        outStream = FileOutputStream(outFile)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream)
+        outStream.flush()
+        outStream.close()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == 0) {
+            if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                bottomNavigation.menu.getItem(0).setEnabled(true)
+            }
+        }
     }
 
     fun volverYActualizar() {
