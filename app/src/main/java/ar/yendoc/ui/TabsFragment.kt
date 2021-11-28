@@ -207,9 +207,8 @@ class TabsFragment(val idVisita : Int) : Fragment() {
         var outStream: FileOutputStream? = null
         val sdCard = Environment.getExternalStorageDirectory()
         val dir = File(sdCard.absolutePath + "/yendoc")
-        Log.d("RUTAAA", dir.toString())
         dir.mkdirs()
-        val fileName = String.format("%d.jpg", System.currentTimeMillis())
+        val fileName = "Img_" + idVisita.toString() + String.format("%d.jpg", System.currentTimeMillis())
         val outFile = File(dir, fileName)
         outStream = FileOutputStream(outFile)
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream)

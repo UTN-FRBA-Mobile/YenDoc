@@ -61,8 +61,8 @@ class DashboardFragment() : Fragment() {
             })
 
         swipeRefresh.setOnRefreshListener {
-            traerVisitasByProfesional()                   // refresh your list contents somehow
-            swipeRefresh.isRefreshing = false   // reset the SwipeRefreshLayout (stop the loading spinner)
+            traerVisitasByProfesional()
+            swipeRefresh.isRefreshing = false
         }
     }
 

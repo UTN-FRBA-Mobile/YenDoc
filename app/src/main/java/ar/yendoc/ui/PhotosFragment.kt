@@ -2,17 +2,18 @@ package ar.yendoc.ui
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Environment
 import android.os.Parcelable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ar.yendoc.R
@@ -21,10 +22,13 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.parcel.Parcelize
 import java.io.File
 
+
+
+
 class PhotosFragment : Fragment() {
 
     companion object {
-        const val EXTRA_PHOTO = "PhotosFragment.PHOTOS"
+        const val EXTRA_PHOTO = "PhotoDetailFragment.EXTRA_PHOTO"
     }
 
     private var _binding: FragmentPhotosBinding? = null
@@ -32,19 +36,23 @@ class PhotosFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var imageGalleryAdapter: ImageGalleryAdapter
+    private var idVisita : Int = 0
+    private lateinit var sharedPref: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentPhotosBinding.inflate(inflater, container, false)
 
+        sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        idVisita = sharedPref.getInt(getString(R.string.id_visita),0)
 
         val layoutManager = GridLayoutManager(this.context, 2)
         recyclerView = this.binding.rvImages
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = layoutManager
-        imageGalleryAdapter = ImageGalleryAdapter(this.requireActivity().baseContext, GalleryPhotos.getPhotos())
+        imageGalleryAdapter = ImageGalleryAdapter(this.requireActivity().baseContext, GalleryPhotos.getPhotos(idVisita))
 
         return binding.root
     }
@@ -92,10 +100,11 @@ class PhotosFragment : Fragment() {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val galleryPhoto = photos[position]
-                    val intent = Intent(context, PhotosFragment::class.java).apply {
+                    val intent = Intent(context, PhotoDetailFragment::class.java).apply {
                         putExtra(PhotosFragment.EXTRA_PHOTO, galleryPhoto)
                     }
                     startActivity(intent)
+
                 }
             }
         }
@@ -108,12 +117,12 @@ class PhotosFragment : Fragment() {
 data class GalleryPhotos(val url: String) : Parcelable{
 
     companion object {
-        fun getPhotos(): Array<GalleryPhotos> {
+        fun getPhotos(idVisita: Int): Array<GalleryPhotos> {
             var rutas = arrayListOf<GalleryPhotos>()
             val sdCard = Environment.getExternalStorageDirectory()
             val dir = sdCard.absolutePath + "/yendoc"
             File(dir).walk().forEach {
-                if(it.toString().contains(".jpg")){
+                if(it.toString().contains(".jpg") && it.toString().contains("Img_$idVisita")){
                     rutas.add(GalleryPhotos("file://$it"))
                 }
             }
