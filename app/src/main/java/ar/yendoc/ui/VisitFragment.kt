@@ -50,9 +50,7 @@ class VisitFragment : Fragment() {
             ) {
                 if(response?.body() != null){
                     visita = response.body()!!
-                    Log.d("PACIENTEEEEEEE", visita!!.paciente_id.toString())
-                    //getPaciente()
-                    llenarDatos()
+                    getPaciente(visita!!.paciente_id)
                 }
             }
 
@@ -62,13 +60,15 @@ class VisitFragment : Fragment() {
         })
     }
 
-    private fun getPaciente(){
-        val apiInterface = ApiServices.create().getPacienteById(visita!!.paciente_id)
+    private fun getPaciente(idPaciente: Int){
+        val apiInterface = ApiServices.create().getPacienteById(idPaciente)
         apiInterface.enqueue( object : Callback<Paciente> {
             override fun onResponse(call: Call<Paciente>, response: Response<Paciente>
             ) {
                 if(response?.body() != null){
                     paciente = response.body()!!
+                    Log.d("RESPONSEEEEE", response.body().toString())
+                    llenarDatos()
                 }
             }
 
@@ -80,10 +80,9 @@ class VisitFragment : Fragment() {
 
     private fun llenarDatos(){
         //TODO: Completar datos al obtenerlos del getPaciente()
-        //binding.lblPaciente
-        //binding.lblEdad
-        //.addressPaciente
-        //binding.lblSintomas
+        binding.lblPaciente.text = paciente?.nombre
+        binding.lblEdad.text = paciente?.edad.toString() + " años"
+        binding.addressPaciente.text = paciente?.direccion_calle + " " +  paciente?.direccion_numero
         //bindin.symptom_paciente.text = visita?.sintomas
         binding.diagnostic.setText(visita?.diagnostico)
     }
