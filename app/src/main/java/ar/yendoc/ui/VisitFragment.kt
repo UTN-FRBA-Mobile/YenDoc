@@ -38,9 +38,7 @@ class VisitFragment : Fragment() {
         sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
         idVisita = sharedPref.getInt(getString(R.string.id_visita),0)
 
-        //getVisita()
-        //getPaciente()
-        //llenarDatos()
+        getVisita()
 
         return binding.root
     }
@@ -52,6 +50,9 @@ class VisitFragment : Fragment() {
             ) {
                 if(response?.body() != null){
                     visita = response.body()!!
+                    Log.d("PACIENTEEEEEEE", visita!!.paciente_id.toString())
+                    //getPaciente()
+                    llenarDatos()
                 }
             }
 
@@ -83,6 +84,7 @@ class VisitFragment : Fragment() {
         //binding.lblEdad
         //.addressPaciente
         //binding.lblSintomas
-        binding.lblDiagnostico.text = visita?.diagnostico
+        //bindin.symptom_paciente.text = visita?.sintomas
+        binding.diagnostic.setText(visita?.diagnostico)
     }
 }

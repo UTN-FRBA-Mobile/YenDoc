@@ -30,7 +30,7 @@ data class Paciente (
 @JsonClass(generateAdapter = true)
 data class Visita (
     @Json(name = "visita_id") val visita_id: Int,
-    @Json(name = "fecha") val fecha: Date? = null,
+    @Json(name = "fecha") val fecha: Long? = null,
     @Json(name = "profesional_id") val profesional_id: Int,
     @Json(name = "paciente_id") val paciente_id: Int,
     @Json(name = "diagnostico") val diagnostico: String? = null,

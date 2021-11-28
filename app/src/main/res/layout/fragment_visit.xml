@@ -99,13 +99,13 @@
             android:id="@+id/symptom_paciente"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="0"
-            android:textColor="@color/black"
-            android:paddingBottom="12dp"
-            android:layout_toEndOf="@+id/lblDireccion"
             android:layout_below="@+id/age_paciente"
-            android:text="@string/sintomas_genericos"/>
+            android:layout_gravity="center_horizontal"
+            android:layout_toEndOf="@+id/lblDireccion"
+            android:layout_weight="0"
+            android:paddingBottom="12dp"
+            android:text="@string/sintomas_genericos"
+            android:textColor="@color/black" />
     </RelativeLayout>
 
     <LinearLayout
