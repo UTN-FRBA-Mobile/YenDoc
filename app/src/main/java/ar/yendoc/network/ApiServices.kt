@@ -27,12 +27,16 @@ interface ApiServices {
     fun getVisitasByProfesionalId(@Path("id") profesional_id : Int) : Call<List<VisitaAdapt>>
 
     //Visitas
-    @GET("visita/{visita_id}")
+    @GET("visitas/{visita_id}")
     fun getVisitaById(@Path("visita_id") visita_id : Int) : Call<Visita>
 
     @FormUrlEncoded
     @POST("visitas/estado")
     fun updateEstado(@Field("visita_id") visita_id : Int, @Field("flag") flag : Int) : Call<Int>
+
+    //Pacientes
+    @GET("pacientes/{paciente_id}")
+    fun getPacienteById(@Path("paciente_id") paciente_id : Int) : Call<Paciente>
 
     companion object {
 

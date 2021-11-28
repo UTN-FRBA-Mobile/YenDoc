@@ -13,4 +13,17 @@ router.route('/')
         });
     });
 
+router.route('/:id')
+    .get(async (req, res, next) => {
+        const {id} = req.params;
+        sqlite.get("SELECT * FROM pacientes WHERE paciente_id = ?", [id], (err, rows) => {
+            if(err) {
+                res.status(400).json({"error": err.message});
+                throw err;
+            }
+            console.log("Solicitud realizada /pacientes/" + id);
+            res.status(200).json(rows);
+        });
+    });
+
 module.exports = router;
