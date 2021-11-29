@@ -30,8 +30,6 @@ router.route('/:id')
 router.route('/estado')
     .post(async (req, res, next) => {
         const {visita_id, flag, diagnostico} = req.body;
-        console.log(diagnostico);
-        console.log(req.body);
         sqlite.run("UPDATE visitas SET estado = ?, diagnostico = ? WHERE visita_id = ?", [flag, diagnostico, visita_id], (err) => {
             if(err) {
                 res.status(400).json(err.message);
