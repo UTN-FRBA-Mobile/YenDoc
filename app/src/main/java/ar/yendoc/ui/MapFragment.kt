@@ -41,11 +41,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
     private lateinit var mMap: GoogleMap
-    private val defaultLocation = LatLng(-34.628744, -58.447452)
+    private val defaultLocation = LatLng(-34.6108875,-58.4664022)
     private var locationPermissionGranted = false
     private var lastKnownLocation: Location? = null
     private lateinit var sharedPref: SharedPreferences
     private var paciente : Paciente? = null
+    private var idPaciente: Int = 0
 
     companion object {
         val TAG: String = MapFragment::class.java.simpleName
@@ -72,8 +73,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
 
         sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
-        var idPaciente = sharedPref.getInt(getString(R.string.id_paciente),0)
-        getPaciente(idPaciente)
+        idPaciente = sharedPref.getInt(getString(R.string.id_paciente),0)
 
         mapFragment = childFragmentManager.findFragmentById(ar.yendoc.R.id.mapGoogle) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
@@ -153,6 +153,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     }
                 }
             }
+            getPaciente(idPaciente)
         } catch (e: SecurityException) {
             Log.e(getString(R.string.error), e.message, e)
         }
