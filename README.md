@@ -22,20 +22,8 @@ Cuenta con una API para conectarse a una base de datos de donde obtiene los dato
 - Vanina Aranda
 
 ## Capturas:
-<!-- Login -->
-<img src="https://raw.githubusercontent.com/UTN-FRBA-Mobile/YenDoc/main/app/captures/inicio_sesion.png" width=250>
 
-<!-- Visitas -->
-<img src="https://raw.githubusercontent.com/UTN-FRBA-Mobile/YenDoc/main/app/captures/visitas.png" width=250>
-
-<!-- Visita -->
-<img src="https://raw.githubusercontent.com/UTN-FRBA-Mobile/YenDoc/main/app/captures/visita.png" width=250>
-
-<!-- Mapa -->
-<img src="https://raw.githubusercontent.com/UTN-FRBA-Mobile/YenDoc/main/app/captures/mapa.png" width=250>
-
-<!-- Finalizar -->
-<img src="https://raw.githubusercontent.com/UTN-FRBA-Mobile/YenDoc/main/app/captures/finalizar.png" width=250>
+<img src="https://raw.githubusercontent.com/UTN-FRBA-Mobile/YenDoc/main/app/captures/inicio_sesion.png" width="200" height="400" /> <img src="https://raw.githubusercontent.com/UTN-FRBA-Mobile/YenDoc/main/app/captures/visitas.png" width="200" height="400" /> <img src="https://raw.githubusercontent.com/UTN-FRBA-Mobile/YenDoc/main/app/captures/visita.png" width="200" height="400" /> <img src="https://raw.githubusercontent.com/UTN-FRBA-Mobile/YenDoc/main/app/captures/mapa.png" width="200" height="400" /> <img src="https://raw.githubusercontent.com/UTN-FRBA-Mobile/YenDoc/main/app/captures/finalizar.png" width="200" height="400" />
 
 ## Licencia:
 ```
