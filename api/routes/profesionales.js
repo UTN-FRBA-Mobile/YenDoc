@@ -35,7 +35,8 @@ router.route('/:id/proximasVisitas')
             estado as estado_visita
             FROM visitas 
             JOIN pacientes ON visitas.paciente_id = pacientes.paciente_id  
-            WHERE profesional_id = ?`;
+            WHERE profesional_id = ?
+            ORDER BY estado_visita DESC`;
         sqlite.all(sql, [id], (err, rows) => {
             if(err) {
                 res.status(400).json(err.message);
