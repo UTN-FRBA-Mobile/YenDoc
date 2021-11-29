@@ -42,9 +42,6 @@ class TabsFragment(val idVisita : Int) : Fragment() {
     private var _binding: FragmentTabsBinding? = null
     private val binding get() = _binding!!
 
-    private val CAMERA_PERMISSION_CODE = 1
-    private val STORAGE_PERMISSION_CODE = 2
-
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager
     private lateinit var bottomNavigation: BottomNavigationView
@@ -125,7 +122,6 @@ class TabsFragment(val idVisita : Int) : Fragment() {
 
                     val diagnostico = sharedPref.getString(getString(
                         ar.yendoc.R.string.diagnostico_completado), getString(ar.yendoc.R.string.diagnostico_generico))
-                    Log.d("DIAGNOSTICO GUARDA", diagnostico.toString())
                     builder.setPositiveButton(
                         getString(ar.yendoc.R.string.si),
                         DialogInterface.OnClickListener { dialog, which ->
@@ -133,13 +129,12 @@ class TabsFragment(val idVisita : Int) : Fragment() {
                             apiInterface.enqueue( object : Callback<Int> {
                                 override fun onResponse(call: Call<Int>, response: Response<Int>) {
                                     if (response?.body() != null){
-                                        Log.d("BODY", response.body().toString())
                                         dialog.dismiss()
                                         volverYActualizar()
                                     }
                                 }
                                 override fun onFailure(call: Call<Int>, t: Throwable) {
-                                    Log.d("ERROR", t.message.toString())
+                                    Log.d(getString(ar.yendoc.R.string.error), t.message.toString())
                                     dialog.dismiss()
                                     volverYActualizar()
                                 }
@@ -153,13 +148,12 @@ class TabsFragment(val idVisita : Int) : Fragment() {
                             apiInterface.enqueue( object : Callback<Int> {
                                 override fun onResponse(call: Call<Int>, response: Response<Int>) {
                                     if (response?.body() != null){
-                                        Log.d("BODY", response.body().toString())
                                         dialog.dismiss()
                                         volverYActualizar()
                                     }
                                 }
                                 override fun onFailure(call: Call<Int>, t: Throwable) {
-                                    Log.d("ERROR", t.message.toString())
+                                    Log.d(getString(ar.yendoc.R.string.error), t.message.toString())
                                     dialog.dismiss()
                                     volverYActualizar()
                                 }
@@ -206,12 +200,12 @@ class TabsFragment(val idVisita : Int) : Fragment() {
     }
 
     private fun handleCameraImage(intent: Intent?) {
-        val bitmap = intent?.extras?.get("data") as Bitmap
+        val bitmap = intent?.extras?.get(getString(ar.yendoc.R.string.data)) as Bitmap
         var outStream: FileOutputStream? = null
         val sdCard = Environment.getExternalStorageDirectory()
-        val dir = File(sdCard.absolutePath + "/yendoc")
+        val dir = File(sdCard.absolutePath + getString(ar.yendoc.R.string.yendoc_ruta))
         dir.mkdirs()
-        val fileName = "Img_" + idVisita.toString() + String.format("%d.jpg", System.currentTimeMillis())
+        val fileName = getString(ar.yendoc.R.string.img_) + idVisita.toString() + String.format(getString(ar.yendoc.R.string.d_jpg), System.currentTimeMillis())
         val outFile = File(dir, fileName)
         outStream = FileOutputStream(outFile)
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream)

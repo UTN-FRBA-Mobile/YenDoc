@@ -70,7 +70,6 @@ class VisitFragment : Fragment() {
                 if(response?.body() != null){
                     visita = response.body()!!
                     sharedPref?.edit()?.putInt(getString(R.string.id_paciente), visita!!.paciente_id)?.apply()
-                    Log.d("RESPONSE VISITA: ", response.body()!!.toString())
                     getPaciente(visita!!.paciente_id)
                 }
             }
@@ -104,7 +103,6 @@ class VisitFragment : Fragment() {
         binding.addressPaciente.text = paciente?.direccion_calle + " " +  paciente?.direccion_numero
         binding.symptomPaciente.text = visita?.sintomas
         binding.diagnostic.setText(visita?.diagnostico)
-        Log.d("DIAGNOSTICO CARGA", visita?.diagnostico.toString())
         sharedPref?.edit()?.putString(getString(R.string.diagnostico_completado),
             visita?.diagnostico
         )?.apply()
