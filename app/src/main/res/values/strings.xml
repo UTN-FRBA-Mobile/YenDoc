@@ -53,4 +53,8 @@
     <string name="usted_esta_aqui">Usted está aquí</string>
     <string name="id_paciente">id_paciente</string>
     <string name="diagnostico_completado">diagnostico_completado</string>
+    <string name="yendoc_ruta">/yendoc</string>
+    <string name="img_">Img_</string>
+    <string name="data">data</string>
+    <string name="d_jpg">%d.jpg</string>
 </resources>

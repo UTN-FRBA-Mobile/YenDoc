@@ -11,7 +11,6 @@ import ar.yendoc.ui.VisitFragment
 
 class TabsAdapter(context: Context, fm: FragmentManager?, totalTabs: Int) :
     FragmentPagerAdapter(fm!!) {
-    private val fragments: List<Fragment> = ArrayList()
 
     private val myContext: Context
     var totalTabs: Int
