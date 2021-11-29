@@ -6,10 +6,10 @@ router.route('/')
     .get(async (req, res, next) => {
       sqlite.all("SELECT * FROM profesionales", [], (err, rows) => {
         if(err) {
-          res.status(400).json({"error": err.message});
+          res.status(400).json(err.message);
           throw err;
         }
-        console.log("Solicitud realizada /profesionales");
+        console.log("GET /profesionales");
         res.status(200).json(rows);
       });
     });
@@ -19,10 +19,10 @@ router.route('/:id')
         const {id} = req.params;
         sqlite.get("SELECT * FROM profesionales WHERE profesional_id = ?", [id], (err, rows) => {
             if(err) {
-                res.status(400).json({"error": err.message});
+                res.status(400).json(err.message);
                 throw err;
             }
-            console.log("Solicitud realizada /profesionales/" + id);
+            console.log("GET /profesionales/" + id);
             res.status(200).json(rows);
         });
     });
@@ -38,10 +38,10 @@ router.route('/:id/proximasVisitas')
             WHERE profesional_id = ?`;
         sqlite.all(sql, [id], (err, rows) => {
             if(err) {
-                res.status(400).json({"error": err.message});
+                res.status(400).json(err.message);
                 throw err;
             }
-            console.log("Solicitud realizada /profesionales/"+id+"/proximasVisitas");
+            console.log("GET /profesionales/"+id+"/proximasVisitas");
             res.status(200).json(rows);
         });
     });
@@ -52,10 +52,23 @@ router.route('/getProfesionalByUser/:user')
         const sql = `SELECT * FROM profesionales WHERE usuario = ? ORDER BY 1 ASC LIMIT 1`;
         sqlite.get(sql, [user], (err, rows) => {
             if(err) {
-                res.status(400).json({"error": err.message});
+                res.status(400).json(err.message);
                 throw err;
             }
-            console.log("Solicitud realizada /profesionales/getProfesionalByUser/" + user);
+            console.log("GET /profesionales/getProfesionalByUser/" + user);
+            res.status(200).json(rows);
+        });
+    });
+
+router.route('/login')
+    .post(async (req, res, next) => {
+        const {usuario, contrasenia} = req.body;
+        sqlite.get("SELECT * FROM profesionales WHERE usuario = ? AND contrasenia = ? LIMIT 1", [usuario, contrasenia], (err, rows) => {
+            if(err) {
+                res.status(400).json(err.message);
+                throw err;
+            }
+            console.log("POST /login/");
             res.status(200).json(rows);
         });
     });

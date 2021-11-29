@@ -8,6 +8,7 @@ import java.util.*
 data class Profesional (
     @Json(name = "profesional_id") val profesional_id: Int,
     @Json(name = "usuario") val usuario: String,
+    @Json(name = "contrasenia") val contrasenia: String,
     @Json(name = "nombre") val nombre: String,
     @Json(name = "email") val email: String,
     @Json(name = "legajo") val legajo: Int
@@ -17,7 +18,7 @@ data class Profesional (
 data class Paciente (
     @Json(name = "paciente_id") val paciente_id: Int,
     @Json(name = "nombre") val nombre: String,
-    @Json(name = "edad") val edad: Int? = null,
+    @Json(name = "edad") val edad: Int? = 0,
     @Json(name = "email") val email: String? = null,
     @Json(name = "telefono") val legajo: Int? = null,
     @Json(name = "direccion_calle") val direccion_calle: String,

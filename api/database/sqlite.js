@@ -12,6 +12,7 @@ const sqlite = new sqlite3.Database(DBSOURCE, (err) => {
         const profesionalesTable = `CREATE TABLE IF NOT EXISTS profesionales (
             profesional_id INTEGER PRIMARY KEY AUTOINCREMENT,
             usuario TEXT,
+            contrasenia TEXT,
             nombre TEXT, 
             email TEXT,
             legajo INTEGER
@@ -47,11 +48,11 @@ const sqlite = new sqlite3.Database(DBSOURCE, (err) => {
         )`;
         sqlite.run(profesionalesTable, (err) => { if (err) { console.error(err); }
             else {
-                const insert = 'INSERT INTO profesionales (usuario, nombre, email, legajo) VALUES (?,?,?,?)';
-                sqlite.run(insert, ["admin", "admin","admin@example.com", 1]);
-                sqlite.run(insert, ["admin", "user","user@example.com", 2]);
-                sqlite.run(insert, ["Juan", "Juan Perez","med1@example.com", 3]);
-                sqlite.run(insert, ["Pepe", "Pepe Medina","med2@example.com", 4]);
+                const insert = 'INSERT INTO profesionales (usuario, contrasenia, nombre, email, legajo) VALUES (?,?,?,?,?)';
+                sqlite.run(insert, ["admin", "asd", "admin","admin@example.com", 1]);
+                sqlite.run(insert, ["user", "asd", "user","user@example.com", 2]);
+                sqlite.run(insert, ["Juan", "asd", "Juan Perez","med1@example.com", 3]);
+                sqlite.run(insert, ["Pepe", "asd", "Pepe Medina","med2@example.com", 4]);
                 }
             });
         sqlite.run(pacientesTable, (err) => { if (err) { console.error(err); }

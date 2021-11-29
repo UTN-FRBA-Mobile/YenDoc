@@ -17,6 +17,11 @@ interface ApiServices {
     @GET("profesionales/getProfesionalByUser/{user}")
     fun getProfesionalByUser(@Path("user") user : String) : Call<Profesional>
 
+    @FormUrlEncoded
+    @POST("profesionales/login")
+    fun login(@Field("usuario") usuario : String, @Field("contrasenia") contrasenia : String) : Call<Profesional>
+
+
     @GET("profesionales/{profesional_id}")
     fun getProfesionalById(@Query("profesional_id") profesional_id : Int) : Call<Profesional>
     /*
@@ -32,7 +37,7 @@ interface ApiServices {
 
     @FormUrlEncoded
     @POST("visitas/estado")
-    fun updateEstado(@Field("visita_id") visita_id : Int, @Field("flag") flag : Int) : Call<Int>
+    fun updateEstado(@Field("visita_id") visita_id : Int, @Field("flag") flag : Int, @Field("diagnostico") diagnostico : String) : Call<Int>
 
     //Pacientes
     @GET("pacientes/{paciente_id}")

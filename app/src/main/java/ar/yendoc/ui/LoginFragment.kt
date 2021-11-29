@@ -49,7 +49,8 @@ class LoginFragment: Fragment() {
                     toast.show()
                 }
                 else -> {
-                    val apiInterface = ApiServices.create().getProfesionalByUser(usuario)
+                    //val apiInterface = ApiServices.create().getProfesionalByUser(usuario)
+                    val apiInterface = ApiServices.create().login(usuario, contrasenia)
                     apiInterface.enqueue( object : Callback<Profesional> {
                         override fun onResponse(
                             call: Call<Profesional>,
@@ -58,6 +59,11 @@ class LoginFragment: Fragment() {
                             if(response.body() != null){
                                 val profesional : Profesional = response.body()!!
                                 listener!!.onLogin(profesional)
+                            }
+                            else {
+                                val toast = Toast.makeText(activity, getString(R.string.usuario_contrasenia_incorrecto), Toast.LENGTH_SHORT)
+                                toast.setGravity(Gravity.BOTTOM, 0, 0)
+                                toast.show()
                             }
                         }
 
