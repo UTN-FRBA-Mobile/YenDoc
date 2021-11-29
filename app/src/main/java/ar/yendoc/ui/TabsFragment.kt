@@ -126,7 +126,7 @@ class TabsFragment(val idVisita : Int) : Fragment() {
                     builder.setPositiveButton(
                         getString(ar.yendoc.R.string.si),
                         DialogInterface.OnClickListener { dialog, which ->
-                            val apiInterface = ApiServices.create().updateEstado(idVisita, 1)
+                            val apiInterface = ApiServices.create().updateEstado(idVisita, 1, "")
                             apiInterface.enqueue( object : Callback<Int> {
                                 override fun onResponse(call: Call<Int>, response: Response<Int>) {
                                     if (response?.body() != null){
@@ -146,7 +146,7 @@ class TabsFragment(val idVisita : Int) : Fragment() {
                     builder.setNegativeButton(
                         getString(ar.yendoc.R.string.no),
                         DialogInterface.OnClickListener { dialog, which ->
-                            val apiInterface = ApiServices.create().updateEstado(idVisita, 2)
+                            val apiInterface = ApiServices.create().updateEstado(idVisita, 2, "")
                             apiInterface.enqueue( object : Callback<Int> {
                                 override fun onResponse(call: Call<Int>, response: Response<Int>) {
                                     if (response?.body() != null){
