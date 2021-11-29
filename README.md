@@ -18,7 +18,6 @@ Cuenta con una API para conectarse a una base de datos de donde obtiene los dato
 ## Autores
 - Carolina Andrea D'Alfonso</br>
 - Julián Román</br>
-- Julián Simplituca</br>
 - Vanina Aranda
 
 ## Capturas:
