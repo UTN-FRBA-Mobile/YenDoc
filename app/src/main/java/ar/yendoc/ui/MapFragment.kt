@@ -73,7 +73,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
 
         sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
-        idPaciente = sharedPref.getInt(getString(R.string.id_paciente),0)
 
         mapFragment = childFragmentManager.findFragmentById(ar.yendoc.R.id.mapGoogle) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
@@ -153,6 +152,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     }
                 }
             }
+            idPaciente = sharedPref.getInt(getString(R.string.id_paciente),0)
             getPaciente(idPaciente)
         } catch (e: SecurityException) {
             Log.e(getString(R.string.error), e.message, e)
@@ -177,6 +177,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setPacienteLocation(){
+        Log.d("PACIENTEEEEEEEEEE ID", idPaciente.toString())
+        Log.d("PACIENTEEEEEEEEEE LATITUD", paciente?.direccion_latitud.toString())
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(paciente?.direccion_latitud!!.toDouble(), paciente?.direccion_longitud!!.toDouble()), DEFAULT_ZOOM.toFloat()))
         mMap.addMarker(MarkerOptions().position(LatLng(paciente?.direccion_latitud!!.toDouble(), paciente?.direccion_longitud!!.toDouble())).title("Visita a realizar"))
     }
