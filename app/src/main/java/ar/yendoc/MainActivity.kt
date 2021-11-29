@@ -88,7 +88,6 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnFragmentInteractionLis
         val navigationView = binding.nvView as NavigationView
         val headerView: View = navigationView.getHeaderView(0)
         headerView.findViewById<TextView>(R.id.doctor_name).text = sharedPref.getString(getString(R.string.nombre_profesional), getString(R.string.nombre_generico))
-
     }
 
     private fun setTitleFromFragment(fragment: Fragment?) {

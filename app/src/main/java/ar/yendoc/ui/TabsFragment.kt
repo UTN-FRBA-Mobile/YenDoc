@@ -32,6 +32,7 @@ import java.io.FileOutputStream
 import java.util.*
 import androidx.core.app.ActivityCompat
 import android.content.pm.PackageManager
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContract
@@ -49,7 +50,6 @@ class TabsFragment(val idVisita : Int) : Fragment() {
     private lateinit var bottomNavigation: BottomNavigationView
     private lateinit var myContext: FragmentActivity
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
-    private lateinit var visitFragment: Fragment
     private lateinit var sharedPref: SharedPreferences
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -123,10 +123,13 @@ class TabsFragment(val idVisita : Int) : Fragment() {
                     builder.setTitle(getString(ar.yendoc.R.string.finalizar))
                     builder.setMessage(getString(ar.yendoc.R.string.pudo_atender_correctamente))
 
+                    val diagnostico = sharedPref.getString(getString(
+                        ar.yendoc.R.string.diagnostico_completado), getString(ar.yendoc.R.string.diagnostico_generico))
+                    Log.d("DIAGNOSTICO GUARDA", diagnostico.toString())
                     builder.setPositiveButton(
                         getString(ar.yendoc.R.string.si),
                         DialogInterface.OnClickListener { dialog, which ->
-                            val apiInterface = ApiServices.create().updateEstado(idVisita, 1, "")
+                            val apiInterface = ApiServices.create().updateEstado(idVisita, 1, diagnostico!!)
                             apiInterface.enqueue( object : Callback<Int> {
                                 override fun onResponse(call: Call<Int>, response: Response<Int>) {
                                     if (response?.body() != null){
@@ -146,7 +149,7 @@ class TabsFragment(val idVisita : Int) : Fragment() {
                     builder.setNegativeButton(
                         getString(ar.yendoc.R.string.no),
                         DialogInterface.OnClickListener { dialog, which ->
-                            val apiInterface = ApiServices.create().updateEstado(idVisita, 2, "")
+                            val apiInterface = ApiServices.create().updateEstado(idVisita, 2, diagnostico!!)
                             apiInterface.enqueue( object : Callback<Int> {
                                 override fun onResponse(call: Call<Int>, response: Response<Int>) {
                                     if (response?.body() != null){

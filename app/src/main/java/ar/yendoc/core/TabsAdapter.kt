@@ -6,10 +6,13 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import ar.yendoc.ui.MapFragment
 import ar.yendoc.ui.PhotosFragment
+import ar.yendoc.ui.TabsFragment
 import ar.yendoc.ui.VisitFragment
 
 class TabsAdapter(context: Context, fm: FragmentManager?, totalTabs: Int) :
     FragmentPagerAdapter(fm!!) {
+    private val fragments: List<Fragment> = ArrayList()
+
     private val myContext: Context
     var totalTabs: Int
 
