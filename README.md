@@ -23,7 +23,7 @@ Cuenta con una API para conectarse a una base de datos de donde obtiene los dato
 
 ## Capturas:
 
-<img src="https://raw.githubusercontent.com/UTN-FRBA-Mobile/YenDoc/main/app/captures/inicio_sesion.png" width="200" height="400" /> <img src="https://raw.githubusercontent.com/UTN-FRBA-Mobile/YenDoc/main/app/captures/visitas.png" width="200" height="400" /> <img src="https://raw.githubusercontent.com/UTN-FRBA-Mobile/YenDoc/main/app/captures/visita.png" width="200" height="400" /> <img src="https://raw.githubusercontent.com/UTN-FRBA-Mobile/YenDoc/main/app/captures/mapa.png" width="200" height="400" /> <img src="https://raw.githubusercontent.com/UTN-FRBA-Mobile/YenDoc/main/app/captures/finalizar.png" width="200" height="400" />
+<img src="https://raw.githubusercontent.com/UTN-FRBA-Mobile/YenDoc/main/app/captures/inicio_sesion.png" width="200" height="400" /> <img src="https://raw.githubusercontent.com/UTN-FRBA-Mobile/YenDoc/main/app/captures/visitas.png" width="200" height="400" /> <img src="https://raw.githubusercontent.com/UTN-FRBA-Mobile/YenDoc/main/app/captures/drawer.png" width="200" height="400" /> <img src="https://raw.githubusercontent.com/UTN-FRBA-Mobile/YenDoc/main/app/captures/about.png" width="200" height="400" /> <img src="https://raw.githubusercontent.com/UTN-FRBA-Mobile/YenDoc/main/app/captures/visita.png" width="200" height="400" /> <img src="https://raw.githubusercontent.com/UTN-FRBA-Mobile/YenDoc/main/app/captures/mapa.png" width="200" height="400" /> <img src="https://raw.githubusercontent.com/UTN-FRBA-Mobile/YenDoc/main/app/captures/finalizar.png" width="200" height="400" />
 
 ## Licencia:
 ```
