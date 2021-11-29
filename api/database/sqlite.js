@@ -49,24 +49,47 @@ const sqlite = new sqlite3.Database(DBSOURCE, (err) => {
         sqlite.run(profesionalesTable, (err) => { if (err) { console.error(err); }
             else {
                 const insert = 'INSERT INTO profesionales (usuario, contrasenia, nombre, email, legajo) VALUES (?,?,?,?,?)';
-                sqlite.run(insert, ["admin", "asd", "admin","admin@example.com", 1]);
-                sqlite.run(insert, ["user", "asd", "user","user@example.com", 2]);
-                sqlite.run(insert, ["Juan", "asd", "Juan Perez","med1@example.com", 3]);
-                sqlite.run(insert, ["Pepe", "asd", "Pepe Medina","med2@example.com", 4]);
+                sqlite.run(insert, ["fferrantino", "asd", "Felipe Ferrantino","fferrantino@example.com", 1001]);
+                sqlite.run(insert, ["ggutierrez", "guti", "Gabriel Gutierrez","ggutierrez@example.com", 1002]);
+                sqlite.run(insert, ["jperez", "pere", "Juan Perez","jperez@example.com", 1003]);
+                sqlite.run(insert, ["jmedina", "medi", "José Medina","jmedina@example.com", 1004]);
+                sqlite.run(insert, ["ssosa", "santis", "Santiago Sosa","ssosa@example.com", 1005]);
                 }
             });
         sqlite.run(pacientesTable, (err) => { if (err) { console.error(err); }
             else {
                 const insert = 'INSERT INTO pacientes (nombre, edad, email, telefono, direccion_calle, direccion_numero, direccion_latitud, direccion_longitud) VALUES (?,?,?,?,?,?,?,?)';
-                sqlite.run(insert, ["Micaela", 24,"med1@example.com", 4654321, 'Avellaneda', 96, -34.6284716,-58.4477707]);
-                sqlite.run(insert, ["Sofia", 32,"med2@example.com", 9843514, 'Rivadavia', 45, -34.6284716,-58.4477707]);
+                sqlite.run(insert, ["Micaela Mendez", 24,"micamendez@example.com", 4654321, 'Caracas', 1417, -34.61426,-58.46855]);
+                sqlite.run(insert, ["Sofia benitez", 32,"sofib@example.com", 9843514, 'Luis Viale', 2982, -34.62001,-58.47597]);
+                sqlite.run(insert, ["Maria Sol Perez", 32,"msperez@example.com", 9843515, 'Morón', 2352, -34.62164,-58.46497]);
+                sqlite.run(insert, ["Joaquin Romero", 32,"joacoromero@example.com", 9843516, 'Gral. César díaz', 2579, -34.61196,-58.47497]);
+                sqlite.run(insert, ["Patricio Roldán", 32,"proldan@example.com", 9843517, 'Nazarre', 2638, -34.59814,-58.48794]);
+                sqlite.run(insert, ["Roberto Miranda", 32,"roberto.miranda@example.com", 9843518, 'Pedro Morán', 2874, -34.59251,-58.49589]);
+                sqlite.run(insert, ["Sebastián Juarez", 32,"sebajuarez@example.com", 9843519, 'Asunción', 2147, -34.58642,-58.48825]);
+                sqlite.run(insert, ["Fernando Zapata", 32,"fzapata@example.com", 9843510, 'Ballivián', 3174, -34.58362,-58.48512]);
+                sqlite.run(insert, ["Ernestina Mateu", 32,"ernestina.mateu@example.com", 9843511, 'La Pampa', 5516, -34.58221,-58.48424]);
+                sqlite.run(insert, ["René Flores", 32,"reneflores@example.com", 9843512, 'Barzana', 1906, -34.58147,-58.48624]);
+                sqlite.run(insert, ["Andrea Peralta", 32,"aperalta1@example.com", 9843513, 'Ávalos', 1559, -34.58226,-58.47948]);
+                sqlite.run(insert, ["Matias Leiva", 32,"matias.leiva@example.com", 9843524, 'Berlin', 3949, -34.58168,-58.47848]);
+                sqlite.run(insert, ["Pedro Jofré", 32,"pjofre@example.com", 9843534, 'Cádiz', 4125, -34.58059,-58.47989]);
                 }
             });
         sqlite.run(visitasTable, (err) => { if (err) { console.error(err); }
 			else {
 				const insert = 'INSERT INTO visitas (fecha, profesional_id, paciente_id, diagnostico, sintomas, estado) VALUES (?,?,?,?,?,?)';
-				sqlite.run(insert, [new Date(), 1, 1, "Gripe", "Mocos", 1]);
-				sqlite.run(insert, [new Date(2021, 9, 1), 2, 2, "Covid", "Tos", 0]);
+				sqlite.run(insert, [new Date(2021, 11, 28), 1, 1, "No se encontró al paciente", "Presenta tos, dolor de cabeza,y congestión", 2]);
+                      sqlite.run(insert, [new Date(2021, 11, 28), 1, 2, "Cuadro alérgico", "Presenta mucha congestión, dolor de cabeza, y ojos llorosos", 1]);
+                      sqlite.run(insert, [new Date(2021, 11, 28), 1, 3, "Bronquitis", "Presenta tos fuerte, y respiración agitada", 1]);
+                      sqlite.run(insert, [new Date(2021, 11, 28), 1, 4, "", "Presenta fuerte dolor de garganta", 0]);
+                      sqlite.run(insert, [new Date(2021, 11, 28), 2, 5, "Angina", "Indica dolor al tragar, y fiebre", 1]);
+                      sqlite.run(insert, [new Date(2021, 11, 28), 2, 6, "", "Manifiesta dolor de cabeza, resfrío, y dolor de cabeza", 0]);
+                      sqlite.run(insert, [new Date(2021, 11, 28), 2, 7, "", "Manifiesta fuerte dolor de cabeza, tos,y fiebre", 0]);
+                      sqlite.run(insert, [new Date(2021, 11, 28), 3, 8, "Gripe", "Indica tos, y mucho cansancio corporal", 1]);
+                      sqlite.run(insert, [new Date(2021, 11, 28), 3, 9, "", "Indica mucho canzancio corporal y fiebre", 0]);
+                      sqlite.run(insert, [new Date(2021, 11, 28), 3, 10, "", "Presenta fuerte dolor de garganta, y fiebre", 0]);
+                      sqlite.run(insert, [new Date(2021, 11, 28), 4, 11, "Cuadro alérgico", "Presenta secreción nasal, estornudos, y dolor de cabeza", 1]);
+                      sqlite.run(insert, [new Date(2021, 11, 28), 4, 12, "No se encontró al paciente", "Presenta congestión nasal, y fuerte dolor de cabeza ", 2]);
+                      sqlite.run(insert, [new Date(2021, 11, 28), 4, 13, "", "Presenta tos, dolor muscular, y febrícula", 0]);
             }
         });
     }
