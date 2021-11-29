@@ -3,11 +3,14 @@ package ar.yendoc.ui
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -27,6 +30,7 @@ class VisitFragment : Fragment() {
     private var visita : Visita? = null
     private var paciente : Paciente? = null
     private var idVisita : Int = 0
+    private lateinit var diagnostic : EditText
     private lateinit var sharedPref: SharedPreferences
 
     override fun onCreateView(
@@ -35,9 +39,24 @@ class VisitFragment : Fragment() {
     ): View? {
         _binding = FragmentVisitBinding.inflate(inflater, container, false)
 
+        diagnostic = binding.diagnostic
+        diagnostic.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                sharedPref?.edit()?.putString(getString(R.string.diagnostico_completado),
+                    diagnostic.text.toString()
+                )?.apply()
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+        })
+
+
         sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
         idVisita = sharedPref.getInt(getString(R.string.id_visita),0)
-
         getVisita()
 
         return binding.root
@@ -50,6 +69,8 @@ class VisitFragment : Fragment() {
             ) {
                 if(response?.body() != null){
                     visita = response.body()!!
+                    sharedPref?.edit()?.putInt(getString(R.string.id_paciente), visita!!.paciente_id)?.apply()
+                    Log.d("RESPONSE VISITA: ", response.body()!!.toString())
                     getPaciente(visita!!.paciente_id)
                 }
             }
@@ -67,7 +88,6 @@ class VisitFragment : Fragment() {
             ) {
                 if(response?.body() != null){
                     paciente = response.body()!!
-                    Log.d("RESPONSEEEEE", response.body().toString())
                     llenarDatos()
                 }
             }
@@ -84,5 +104,9 @@ class VisitFragment : Fragment() {
         binding.addressPaciente.text = paciente?.direccion_calle + " " +  paciente?.direccion_numero
         binding.symptomPaciente.text = visita?.sintomas
         binding.diagnostic.setText(visita?.diagnostico)
+        Log.d("DIAGNOSTICO CARGA", visita?.diagnostico.toString())
+        sharedPref?.edit()?.putString(getString(R.string.diagnostico_completado),
+            visita?.diagnostico
+        )?.apply()
     }
 }

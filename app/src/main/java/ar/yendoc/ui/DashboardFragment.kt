@@ -96,7 +96,6 @@ class DashboardFragment() : Fragment() {
                 response: Response<List<VisitaAdapt>>
             ) {
                 if(response?.body() != null){
-                    Log.d(getString(R.string.body), response.body().toString())
                     myVisitas.clear()
                     for (i in 0 until (response.body()!!.size)){
                         myVisitas.add(i, response.body()!![i])
